@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   repos="https://OpenSVN.csie.org/SistemaEspecialista"
+   revision="2"
+   url="https://OpenSVN.csie.org/SistemaEspecialista/trunk/SistemaEspecialista/src/br/ufal"
+   last-author="andersonbn"
+   committed-date="2006-11-14T01:27:25.472000Z"
+   name=""
+   kind="dir"
+   committed-rev="2"/>
+<entry
+   name="ic"
+   kind="dir"/>
+</wc-entries>
