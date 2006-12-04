@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   revision="2"
+   repos="https://OpenSVN.csie.org/SistemaEspecialista"
+   url="https://OpenSVN.csie.org/SistemaEspecialista/trunk/SistemaEspecialista/lib"
+   last-author="andersonbn"
+   committed-date="2006-11-14T01:27:25.472000Z"
+   kind="dir"
+   name=""
+   committed-rev="2"/>
+<entry
+   checksum="baa8c25c5b5a8d5f387b556b80e11fff"
+   last-author="andersonbn"
+   prop-time="2006-11-14T01:19:24.843000Z"
+   text-time="2006-11-14T00:53:58.687000Z"
+   committed-date="2006-11-14T01:27:25.472000Z"
+   kind="file"
+   name="hsqldb.jar"
+   committed-rev="2"/>
+<entry
+   checksum="be0a9e53f22f34a7a2da02ab97bba569"
+   last-author="andersonbn"
+   prop-time="2006-11-14T01:19:24.937000Z"
+   text-time="2006-11-14T00:53:58.718000Z"
+   committed-date="2006-11-14T01:27:25.472000Z"
+   name="mysql-connector-java-3.1.13-bin.jar"
+   kind="file"
+   committed-rev="2"/>
+</wc-entries>
