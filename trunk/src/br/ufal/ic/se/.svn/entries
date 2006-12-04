@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   repos="https://OpenSVN.csie.org/SistemaEspecialista"
+   revision="9"
+   url="https://OpenSVN.csie.org/SistemaEspecialista/trunk/SistemaEspecialista/src/br/ufal/ic/se"
+   last-author="andersonbn"
+   uuid="26ec3c93-2a22-0410-95e1-8d3d6ac403c6"
+   committed-date="2006-11-17T15:34:24.279138Z"
+   name=""
+   kind="dir"
+   committed-rev="9"/>
+<entry
+   checksum="fc161c49d3797e122556f16cd7e27db4"
+   last-author="andersonbn"
+   text-time="2006-11-14T01:27:25.472000Z"
+   committed-date="2006-11-14T01:27:25.472000Z"
+   name="MainBackward.java"
+   kind="file"
+   committed-rev="2"/>
+<entry
+   checksum="f2b1dc9998b1e53427d264e65d1d52f1"
+   last-author="andersonbn"
+   text-time="2006-11-14T01:27:25.472000Z"
+   committed-date="2006-11-14T01:27:25.472000Z"
+   kind="file"
+   name="MainEditor.java"
+   committed-rev="2"/>
+<entry
+   revision="10"
+   checksum="80e5a4f88225db037e363d7268ec4162"
+   last-author="andersonbn"
+   text-time="2006-11-20T04:35:27.828000Z"
+   committed-date="2006-11-20T04:36:50.213000Z"
+   name="MainForward.java"
+   kind="file"
+   committed-rev="10"/>
+<entry
+   kind="dir"
+   name="analysis"/>
+<entry
+   kind="dir"
+   name="database"/>
+<entry
+   kind="dir"
+   name="gui"/>
+<entry
+   name="lexer"
+   kind="dir"/>
+<entry
+   kind="dir"
+   name="models"/>
+<entry
+   name="node"
+   kind="dir"/>
+<entry
+   kind="dir"
+   name="parser"/>
+<entry
+   checksum="acf2f2fcca0cc150bcabd693f820f08d"
+   last-author="andersonbn"
+   text-time="2006-11-14T00:53:31.906000Z"
+   committed-date="2006-11-14T01:27:25.472000Z"
+   name="sistema_especialista.script"
+   kind="file"
+   committed-rev="2"/>
+<entry
+   kind="dir"
+   name="util"/>
+</wc-entries>
