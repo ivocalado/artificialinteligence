@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   revision="9"
+   repos="https://OpenSVN.csie.org/SistemaEspecialista"
+   url="https://OpenSVN.csie.org/SistemaEspecialista/trunk/SistemaEspecialista/src/br/ufal/ic/se/gui/models"
+   last-author="andersonbn"
+   uuid="26ec3c93-2a22-0410-95e1-8d3d6ac403c6"
+   committed-date="2006-11-17T15:33:00.312303Z"
+   kind="dir"
+   name=""
+   committed-rev="8"/>
+<entry
+   checksum="a53060d7dd7604eea2c1d99d5ac8304b"
+   last-author="andersonbn"
+   text-time="2006-11-16T06:05:53.437000Z"
+   committed-date="2006-11-17T15:33:00.312000Z"
+   kind="file"
+   name="EditorTableModel.java"
+   committed-rev="8"/>
+<entry
+   checksum="2d9eb6aee2e7033cde606114c8dc7265"
+   last-author="andersonbn"
+   text-time="2006-11-16T05:50:27.484000Z"
+   committed-date="2006-11-16T05:56:10.465000Z"
+   name="FactsEditorModel.java"
+   kind="file"
+   committed-rev="6"/>
+<entry
+   checksum="9c6e7d5e44ff9a5f2d0a4621fd3e18f3"
+   last-author="andersonbn"
+   text-time="2006-11-16T06:08:45.718000Z"
+   committed-date="2006-11-17T15:33:00.312000Z"
+   name="Widget.java"
+   kind="file"
+   committed-rev="8"/>
+</wc-entries>

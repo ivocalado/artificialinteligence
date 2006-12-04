@@ -1,0 +1,70 @@
+package br.ufal.ic.se;
+import br.ufal.ic.se.models.*;
+import br.ufal.ic.se.node.TLetter;
+
+
+public class MainForward {
+	public static void main(String[] args) {
+		try {		    
+		       /******* busca orientada a dados ****************/
+		    	/*base de conhecimento*/
+			KB kb = new KB();
+			
+			/*regras*/
+			kb.tell("(P => Q)","");
+			kb.tell("((L AND M) => P)","");
+			kb.tell("((B AND L) => M)","");
+			kb.tell("((A AND P) => L)","");
+			kb.tell("((A AND B) => L)","");
+			
+			/*fatos*/			
+			kb.tell("A","");
+			kb.tell("B","");			 
+			
+			//cria uma memória de trabalho
+			WMemory<TLetter, Boolean> workingMemory = 
+			    new WMemory<TLetter, Boolean>();
+			
+			//aplica o algoritmo de busca para a frente
+			ForwardChainingEngine fce = 
+			    new ForwardChainingEngine(kb, workingMemory);
+			
+			//consulta
+			System.out.println(fce.query("Q"));			
+			
+			/******* busca orientada a objetivos **************/
+			/*base de conhecimento*/
+			KB kbback = new KB();
+			
+			/*regras*/
+			//kbback.tell("(P => Q)","");
+		//	kbback.tell("((L AND M) => P)","");
+		//	kbback.tell("((B AND L) => M)","");
+			//kbback.tell("( (A AND P) => L)","");
+			kbback.tell("((M AND N) => L)","");
+			kbback.tell("((J AND Z) => L)","");
+			kbback.tell("(B => Z)","");
+			kbback.tell("((J AND B) => L)","");
+			kbback.tell("(A  => J)","");
+			kbback.tell("((C AND K) => B)","");
+			//kbback.tell("A","");
+			/*fatos*/			
+			//kbback.tell("A","");
+		//	kbback.tell("B","");
+			 
+			
+			workingMemory.reset();
+			
+			BackwardChainingEngine bce = new BackwardChainingEngine(kbback, workingMemory);
+			System.out.println(bce.query("L"));
+			
+		
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+
+

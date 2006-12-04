@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   revision="9"
+   repos="https://OpenSVN.csie.org/SistemaEspecialista"
+   url="https://OpenSVN.csie.org/SistemaEspecialista/trunk/SistemaEspecialista/src/br/ufal/ic/se/gui/controllers"
+   last-author="andersonbn"
+   committed-date="2006-11-16T05:56:10.465000Z"
+   kind="dir"
+   name=""
+   committed-rev="6"/>
+<entry
+   checksum="a3c33c6ccae17757c11c63e8c0362078"
+   last-author="andersonbn"
+   text-time="2006-11-16T05:50:19.828000Z"
+   committed-date="2006-11-16T05:56:10.465000Z"
+   kind="file"
+   name="FactsEditorController.java"
+   committed-rev="6"/>
+</wc-entries>
