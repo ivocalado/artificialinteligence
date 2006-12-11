@@ -2,49 +2,62 @@
 
 package br.ufal.ic.se.node;
 
-
 import br.ufal.ic.se.analysis.*;
 
-public final class TLetter extends Token
-{
-    public TLetter(String text)
-    {
-        setText(text);
-    }
+public final class TLetter extends Token {
+	private Double certaintyDegree = 1.0;
 
-    public TLetter(String text, int line, int pos)
-    {
-        setText(text);
-        setLine(line);
-        setPos(pos);
-    }
+	private Boolean value = false;
 
-    public Object clone()
-    {
-      return new TLetter(getText(), getLine(), getPos());
-    }
-    
-    public boolean equals(Object o) {
-		if( this == o ) {
+	public TLetter(String text) {
+		setText(text);
+	}
+
+	public TLetter(String text, int line, int pos) {
+		setText(text);
+		setLine(line);
+		setPos(pos);
+	}
+
+	public Object clone() {
+		return new TLetter(getText(), getLine(), getPos());
+	}
+
+	public boolean equals(Object o) {
+		if (this == o) {
 			return true;
 		}
-		if((o == null) || (this.getClass() != o.getClass())){
+		if ((o == null) || (this.getClass() != o.getClass())) {
 			return false;
 		}
 		TLetter t = (TLetter) o;
-		if (!t.getText().equals(getText())){
+		if (!t.getText().equals(getText())) {
 			return false;
-		}	
-		
+		}
 		return true;
 	}
-    
-    public int hashCode() {
-    	return  super.hashCode();
-    }
 
-    public void apply(Switch sw)
-    {
-        ((Analysis) sw).caseTLetter(this);
-    }
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	public void apply(Switch sw) {
+		((Analysis) sw).caseTLetter(this);
+	}
+
+	public Double getCertaintyDegree() {
+		return certaintyDegree;
+	}
+
+	public void setCertaintyDegree(Double certaintyDegree) {
+		this.certaintyDegree = certaintyDegree;
+	}
+
+	public Boolean getValue() {
+		return value;
+	}
+
+	public void setValue(Boolean value) {
+		this.value = value;
+	}
 }
