@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import busca.Aleatorio;
+import busca.BuscaLargura;
 import busca.Estado;
 import busca.Heuristica;
 import busca.MostraStatusConsole;
@@ -290,7 +291,7 @@ public class EstadoRainhas implements Estado, Heuristica, Aleatorio {
         Nodo n = null;
         // os tr�s m�todos seguintes n�o conseguem
         // resolver o problema das ra�nhas
-        //n = Busca.buscaLargura(inicial, null);
+        n = new BuscaLargura(new MostraStatusConsole()).busca(inicial);
         //n = Busca.buscaProfRec(inicial, null, 10);
         //n = Busca.buscaProfIterativo(inicial, null);
                 /*
@@ -302,7 +303,7 @@ public class EstadoRainhas implements Estado, Heuristica, Aleatorio {
                  */
         
         // a subida da montanha consegue resolver
-        n = new SubidaMontanha(new MostraStatusConsole()).busca(inicial);
+        //n = new SubidaMontanha(new MostraStatusConsole()).busca(inicial);
         System.out.println("solu��o:\n" + n.getEstado() + "\n\n");
     }
     
