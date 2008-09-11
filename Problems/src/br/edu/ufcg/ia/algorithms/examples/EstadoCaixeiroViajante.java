@@ -7,24 +7,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
-import br.edu.ufcg.ia.algorithms.graph.Grafo;
-import br.edu.ufcg.ia.algorithms.graph.GrafoNaoDirigido;
-import br.edu.ufcg.ia.algorithms.graph.Vertice;
+import br.edu.ufcg.ia.algorithms.search.AEstrela;
 import br.edu.ufcg.ia.algorithms.search.Aleatorio;
 import br.edu.ufcg.ia.algorithms.search.Antecessor;
-import br.edu.ufcg.ia.algorithms.search.BuscaLargura;
 import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.Heuristica;
 import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
 import br.edu.ufcg.ia.algorithms.search.Nodo;
+import br.edu.ufcg.ia.algorithms.search.SubidaMontanha;
 
 /**
  * Representa um estado do mundo para o problema do caixeiro viajante.
@@ -64,14 +60,16 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	public double custo;
 	private String caminho;
 
-	public EstadoCaixeiroViajante(String c, SimpleWeightedGraph<String, DefaultWeightedEdge> g) {
+	public EstadoCaixeiroViajante(String c,
+			SimpleWeightedGraph<String, DefaultWeightedEdge> g) {
 		this.g = g;
 		this.estado = c;
 		caminho = "" + c;
 	}
 
-	public EstadoCaixeiroViajante(String c, double custo, String pai, SimpleWeightedGraph<String, DefaultWeightedEdge> g) {
-		this.g=g;
+	public EstadoCaixeiroViajante(String c, double custo, String pai,
+			SimpleWeightedGraph<String, DefaultWeightedEdge> g) {
+		this.g = g;
 		this.estado = c;
 		this.custo = custo;
 		this.caminho = pai + " -> " + c;
@@ -110,7 +108,7 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	 * Custo para geracao de um estado
 	 */
 	public int custo() {
-		return (int)custo;
+		return (int) custo;
 	}
 
 	/**
@@ -120,12 +118,12 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		// mapa.getVertice(cidade).setFoiVisitado(true);
 		System.out.println(caminho);
 		List<Estado> suc = new LinkedList<Estado>(); // a lista de sucessores
-		/*Map<Vertice, Integer> custos = mapa.getVertice(cidade)
-				.getCustoAdjacentes();
-		for (Vertice v : custos.keySet()) {
-			suc.add(new EstadoCaixeiroViajante(v.getId(), custos.get(v),
-					caminho));
-		}*/
+		/*
+		 * Map<Vertice, Integer> custos = mapa.getVertice(cidade)
+		 * .getCustoAdjacentes(); for (Vertice v : custos.keySet()) {
+		 * suc.add(new EstadoCaixeiroViajante(v.getId(), custos.get(v),
+		 * caminho)); }
+		 */
 
 		for (DefaultWeightedEdge edge : g.edgesOf(estado)) {
 			suc.add(new EstadoCaixeiroViajante(g.getEdgeSource(edge).equals(
@@ -184,12 +182,11 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		 * (!percurso.contains(estado)) { custosAtual += estado.custo();
 		 * cidades++; } } custosAtual =
 		 * ((cidades*custosAtual)/(cidades-nomes.length)); return
-		 * (custosAtual)*estadoAtual.custo();
-		 *  /* //heuristica de quarta com conhecimento prévio usando g() int
-		 * profundidade = n.getProfundidade(); if(profundidade == 0) return 0;
-		 * int custoAcumulado = n.g(); int media =
-		 * (int)custoAcumulado/profundidade; int estimativa = media *
-		 * (nomes.length - profundidade);
+		 * (custosAtual)*estadoAtual.custo(); /* //heuristica de quarta com
+		 * conhecimento prévio usando g() int profundidade =
+		 * n.getProfundidade(); if(profundidade == 0) return 0; int
+		 * custoAcumulado = n.g(); int media = (int)custoAcumulado/profundidade;
+		 * int estimativa = media * (nomes.length - profundidade);
 		 * 
 		 * return estimativa;
 		 */
@@ -227,8 +224,8 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		// suc.add(new EstadoCaixeiroViajante(v.getId(), custos.get(v)));
 		// }
 
-		return new EstadoCaixeiroViajante((String)g.vertexSet().toArray()[index], 0,
-				"", g);
+		return new EstadoCaixeiroViajante(
+				(String) g.vertexSet().toArray()[index], 0, "", g);
 	}
 
 	public static void main(String[] a) throws FileNotFoundException,
@@ -329,8 +326,8 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		// AEstrela busca = new AEstrela(new MostraStatusConsole());
 		// BuscaProfundidade busca = new BuscaProfundidade(new
 		// MostraStatusConsole());
-		BuscaLargura busca = new BuscaLargura(new MostraStatusConsole());
-
+		// BuscaLargura busca = new BuscaLargura(new MostraStatusConsole());
+		SubidaMontanha busca = new SubidaMontanha(new MostraStatusConsole());
 		busca.usarFechados(false);
 		Nodo s = busca.busca(inicial);
 
