@@ -228,8 +228,7 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 				(String) g.vertexSet().toArray()[index], 0, "", g);
 	}
 
-	public static void main(String[] a) throws FileNotFoundException,
-			IOException {
+	public static void main(String[] a) throws FileNotFoundException, IOException {
 		/** informacao estatica (o mapa) */
 		// SimpleWeightedGraph<String, DefaultWeightedEdge> g;
 		SimpleWeightedGraph<String, DefaultWeightedEdge> g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
