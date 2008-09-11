@@ -23,7 +23,7 @@ public class EstadoTSP implements Estado, Heuristica, Aleatorio {
 	/* (non-Javadoc)
 	 * @see busca.Aleatorio#geraAleatorio()
 	 */
-	@Override
+	
 	public Estado geraAleatorio() {
 		List<Estado> e = sucessores();
 		return e.get(new Random().nextInt()%e.size());
@@ -51,7 +51,7 @@ public class EstadoTSP implements Estado, Heuristica, Aleatorio {
 	 * 
 	 * @see busca.Estado#custo()
 	 */
-	@Override
+	
 	public int custo() {
 		// TODO Auto-generated method stub
 		return (int) custo;
@@ -62,7 +62,7 @@ public class EstadoTSP implements Estado, Heuristica, Aleatorio {
 	 * 
 	 * @see busca.Estado#ehMeta()
 	 */
-	@Override
+
 	public boolean ehMeta(Nodo n) {
 		/*
 		 * // TODO Auto-generated method stub
@@ -79,7 +79,7 @@ public class EstadoTSP implements Estado, Heuristica, Aleatorio {
 	 * 
 	 * @see busca.Estado#getDescricao()
 	 */
-	@Override
+	
 	public String getDescricao() {
 		// TODO Auto-generated method stub
 		return "Este problema consiste de encontrar a melhor solução para o problema do caixeiro viajante";
@@ -90,7 +90,7 @@ public class EstadoTSP implements Estado, Heuristica, Aleatorio {
 	 * 
 	 * @see busca.Estado#sucessores()
 	 */
-	@Override
+	
 	public List<Estado> sucessores() {
 		Set<DefaultWeightedEdge> edges = g.edgesOf(vertice);
 		List<Estado> suc = new LinkedList<Estado>();
@@ -120,7 +120,7 @@ public class EstadoTSP implements Estado, Heuristica, Aleatorio {
 	 * 
 	 * @see busca.Heuristica#h()
 	 */
-	@Override
+	
 	public int h(Nodo n) {
 		// TODO Auto-generated method stub
 		return g.vertexSet().size() - path.size();
@@ -131,7 +131,7 @@ public class EstadoTSP implements Estado, Heuristica, Aleatorio {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
+	
 	public String toString() {
 		/*
 		 * // TODO Auto-generated method stub path.add(vertice);
