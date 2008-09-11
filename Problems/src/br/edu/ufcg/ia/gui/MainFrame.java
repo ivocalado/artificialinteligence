@@ -3,14 +3,10 @@ package br.edu.ufcg.ia.gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.Random;
 import java.util.Set;
 
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -52,7 +48,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldVertexName;
     private javax.swing.JTextField textFieldWeight;
      
-    SimpleWeightedGraph<String, DefaultWeightedEdge> g;
+    enum Problem { NQUEENS, TRAVELLING_SALESMAN }
+    private SimpleWeightedGraph<String, DefaultWeightedEdge> g;
+    private Problem selectedProblem;
+
 	
     /** Creates new form MainFrame */
     public MainFrame() {
@@ -78,8 +77,7 @@ public class MainFrame extends javax.swing.JFrame {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-				
+		}				
 	}
 
 	/** This method is called from within the constructor to
@@ -354,11 +352,18 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void buttonExecActionPerformed(java.awt.event.ActionEvent evt) {
-    	try {
-    		int numberOfQueens = Integer.valueOf(this.textFieldNumberOfQueens.getText());
-    	} catch (NumberFormatException e) {
-    		JOptionPane.showMessageDialog(this, "Entrada Inválida!");
-		}
+    	
+    	if(this.selectedProblem.equals(Problem.NQUEENS)) {
+    		System.out.println("NQUEENS");
+    		try {
+        		int numberOfQueens = Integer.valueOf(this.textFieldNumberOfQueens.getText());
+        	} catch (NumberFormatException e) {
+        		JOptionPane.showMessageDialog(this, "Entrada Inválida!");
+    		}
+    	} else {
+    		System.out.println("TRAVELING_SALESMAN");
+    	}
+    
     }
 
     private void buttonRemoveEdgeActionPerformed(java.awt.event.ActionEvent evt) {
@@ -423,8 +428,16 @@ public class MainFrame extends javax.swing.JFrame {
     	
     }
 
-    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
-    	
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {    	
+    	if(this.selectedProblem == null) {
+    		this.selectedProblem = Problem.NQUEENS;
+    	} else {
+        	if(this.selectedProblem.equals(Problem.NQUEENS)) {
+        		this.selectedProblem = Problem.TRAVELLING_SALESMAN;
+        	} else {
+        		this.selectedProblem = Problem.NQUEENS;
+        	}	
+    	}
     }
     
     /**
