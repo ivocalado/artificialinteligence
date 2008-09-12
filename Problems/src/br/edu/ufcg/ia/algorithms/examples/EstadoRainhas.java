@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.edu.ufcg.ia.algorithms.search.Aleatorio;
 import br.edu.ufcg.ia.algorithms.search.BuscaLargura;
+import br.edu.ufcg.ia.algorithms.search.BuscaProfundidade;
 import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.Heuristica;
 import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
@@ -303,7 +304,8 @@ public class EstadoRainhas implements Estado, Heuristica, Aleatorio {
                  */
         
         // a subida da montanha consegue resolver
-        n = new SubidaMontanha(new MostraStatusConsole()).busca(inicial);
+        //
+        n = new BuscaProfundidade(new MostraStatusConsole()).busca(inicial);
         System.out.println("solu��o:\n" + n.getEstado() + "\n\n");
     }
     
