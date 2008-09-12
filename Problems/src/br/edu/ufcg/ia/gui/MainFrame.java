@@ -3,6 +3,7 @@ package br.edu.ufcg.ia.gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
@@ -15,11 +16,20 @@ import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
+import br.edu.ufcg.ia.algorithms.examples.EstadoCaixeiroViajante;
+import br.edu.ufcg.ia.algorithms.examples.EstadoRainhas;
+import br.edu.ufcg.ia.algorithms.examples.SeachListenner;
+import br.edu.ufcg.ia.algorithms.search.Busca;
+import br.edu.ufcg.ia.algorithms.search.Estado;
+import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
+import br.edu.ufcg.ia.algorithms.search.Nodo;
+import br.edu.ufcg.ia.algorithms.search.SubidaMontanha;
+
 /**
  *
  * @author  thiagobrunoms
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame implements SeachListenner {
     
     private javax.swing.JComboBox comboVertex2;
     private javax.swing.JButton buttonAddEdge;
@@ -50,6 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
      
     enum Problem { NQUEENS, TRAVELLING_SALESMAN }
     private SimpleWeightedGraph<String, DefaultWeightedEdge> g;
+    private HashMap<String, Integer> hashAlgoritms;
     private Problem selectedProblem;
 
 	
@@ -59,20 +70,21 @@ public class MainFrame extends javax.swing.JFrame {
         initComponentesValue();
     }
     
-    
-    
     private void initComponentesValue() {
     	this.g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(new ClassBasedEdgeFactory<String, DefaultWeightedEdge>(
 						DefaultWeightedEdge.class));
     	
+    	this.hashAlgoritms = new HashMap<String, Integer>();
+    	
     	Properties p = new Properties();
 		try {
 			p.load(new FileInputStream("algorithms.properties"));
-			
-			for (Object algorithm : p.keySet()) {
-				this.comboAlgoritms.addItem(p.getProperty((String) algorithm));
-			}
-			
+			String algorithm = "";
+			for (Object algorithmKey : p.keySet()) {
+				algorithm = p.getProperty((String) algorithmKey);
+				this.comboAlgoritms.addItem(algorithm);
+				this.hashAlgoritms.put(algorithm, Integer.valueOf((String)algorithmKey));				
+			}			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -352,17 +364,66 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void buttonExecActionPerformed(java.awt.event.ActionEvent evt) {
+    	Nodo n 		   = null;    	
+    	Busca busca    = null;
+    	Estado inicial = null;
+    	MostraStatusConsole statusConsole = new MostraStatusConsole();
     	
     	if(this.selectedProblem.equals(Problem.NQUEENS)) {
-    		System.out.println("NQUEENS");
     		try {
-        		int numberOfQueens = Integer.valueOf(this.textFieldNumberOfQueens.getText());
+        		short numberOfQueens = Short.valueOf(this.textFieldNumberOfQueens.getText());
+                EstadoRainhas.tam    = numberOfQueens;
+                
+                inicial 		 	 = new EstadoRainhas();
+                System.out.println("Estado inicial:"+inicial+"\n");
+
         	} catch (NumberFormatException e) {
         		JOptionPane.showMessageDialog(this, "Entrada Inválida!");
     		}
+        	
     	} else {
-    		System.out.println("TRAVELING_SALESMAN");
+    		inicial = new EstadoCaixeiroViajante("Pernambuco", this.g);
+    		this.textAreaResult.append("Estado inicial: " + inicial);   		
     	}
+    	
+    	String selectedAlgorithm = (String)this.comboAlgoritms.getModel().getSelectedItem();
+    	int selectedAlgorithmId  = this.hashAlgoritms.get(selectedAlgorithm);
+    	
+    	switch (selectedAlgorithmId) {
+			case 1:
+				//extensão
+				break;
+			case 2:
+				//Busca em Profundidade
+				break;
+			case 3:
+				//Satisfação de Restrinção (Subida de Montanha)
+				busca = new SubidaMontanha(statusConsole);
+				break;
+			case 4:
+				//Busca A Estrela
+				break;
+			case 5:
+				//Busca Gulosa
+				break;
+			case 6:
+				//Algoritmo Genético
+				break;
+		}
+		
+		busca.usarFechados(false);
+		try {
+			n = busca.busca(inicial);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+/*		if (n != null) {
+			System.out.println("solucao = " + n.montaCaminho());
+			System.out.println("\toperacoes = " + n.getProfundidade());
+			System.out.println("\tcusto = " + n.g());
+		}*/	
+
     
     }
 
@@ -450,6 +511,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
+
+
+
+	public void searchUpdated(String str) {
+		this.textAreaResult.append("\n"+str);
+	}
     
     
 }
