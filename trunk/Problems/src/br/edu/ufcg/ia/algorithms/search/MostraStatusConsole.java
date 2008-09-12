@@ -1,14 +1,29 @@
 package br.edu.ufcg.ia.algorithms.search;
 
+import java.util.ArrayList;
+
+import br.edu.ufcg.ia.algorithms.examples.SeachListenner;
+
 /** mostra os dados de um status de busca */
 public class MostraStatusConsole extends Thread {
 
     private Status status;
     private boolean stop = false;
+    private ArrayList<SeachListenner> listenners; 
     
     public MostraStatusConsole() {
+    	this.listenners = new ArrayList<SeachListenner>();
         start();        
     }
+    
+    public void addSearchListenner(SeachListenner l) {
+    	this.listenners.add(l);
+    }
+    
+    public void removeSearchListenner(SeachListenner l) {
+    	this.listenners.remove(l);
+    }
+    
     public MostraStatusConsole(Status s) {
         setStatus(s);
         start();        
@@ -45,6 +60,13 @@ public class MostraStatusConsole extends Thread {
         println(": Fim da busca. "+status.nroVisitados+" nodos visitados em "+status.getTempoDecorrido()+" mili-seg.\n");        
     }
     protected void mostra() {
+    	String str = "Status:" + "\t\n"+status.nroVisitados+" nodos visitados, nodos em aberto="+status.tamAbertos +
+    		"\t\nProfundidade atual="+status.profundidadeMax + "\t\nTempo decorrido="+status.getTempoDecorrido();
+    	
+    	for (SeachListenner l : this.listenners) {
+			l.searchUpdated(str);
+		}
+    	
         println("Status:");
         println("\t"+status.nroVisitados+" nodos visitados, nodos em aberto="+status.tamAbertos);
         println("\tProfundidade atual="+status.profundidadeMax);

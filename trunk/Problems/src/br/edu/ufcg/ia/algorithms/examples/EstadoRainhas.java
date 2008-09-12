@@ -25,7 +25,7 @@ public class EstadoRainhas implements Estado, Heuristica, Aleatorio {
         "(tem heuristica implementada)\n";
     }
     
-    static short tam = 8;
+    public static short tam = 8;
     public static void setTamanho(int t) {
         tam = (short)t;
     }
