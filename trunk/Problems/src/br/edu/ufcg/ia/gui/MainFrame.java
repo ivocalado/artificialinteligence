@@ -3,6 +3,7 @@ package br.edu.ufcg.ia.gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
@@ -11,6 +12,7 @@ import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -19,11 +21,15 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import br.edu.ufcg.ia.algorithms.examples.EstadoCaixeiroViajante;
 import br.edu.ufcg.ia.algorithms.examples.EstadoRainhas;
 import br.edu.ufcg.ia.algorithms.examples.SeachListenner;
+import br.edu.ufcg.ia.algorithms.search.AEstrela;
 import br.edu.ufcg.ia.algorithms.search.Busca;
+import br.edu.ufcg.ia.algorithms.search.BuscaLargura;
+import br.edu.ufcg.ia.algorithms.search.BuscaProfundidade;
 import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
 import br.edu.ufcg.ia.algorithms.search.Nodo;
 import br.edu.ufcg.ia.algorithms.search.SubidaMontanha;
+import br.edu.ufcg.ia.util.TextAreaOutputStream;
 
 /**
  *
@@ -63,6 +69,7 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
     private HashMap<String, Integer> hashAlgoritms;
     private Problem selectedProblem;
     private MostraStatusConsole statusConsole;
+    private TextAreaOutputStream textAreaOut;
 	
     /** Creates new form MainFrame */
     public MainFrame() {
@@ -76,7 +83,10 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
     	
     	this.hashAlgoritms = new HashMap<String, Integer>();
     	this.statusConsole = new MostraStatusConsole();
-    	this.statusConsole.addSearchListenner(this);
+    	
+    	this.textAreaOut = new TextAreaOutputStream(this.textAreaResult);
+    	System.setOut(new PrintStream(this.textAreaOut));
+    	System.setErr(new PrintStream(this.textAreaOut));
     	
     	Properties p = new Properties();
 		try {
@@ -393,9 +403,11 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
     	switch (selectedAlgorithmId) {
 			case 1:
 				//extensão
+				busca = new BuscaLargura(this.statusConsole);
 				break;
 			case 2:
 				//Busca em Profundidade
+				busca = new BuscaProfundidade(this.statusConsole);
 				break;
 			case 3:
 				//Satisfação de Restrinção (Subida de Montanha)
@@ -403,6 +415,7 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
 				break;
 			case 4:
 				//Busca A Estrela
+				busca = new AEstrela(this.statusConsole);
 				break;
 			case 5:
 				//Busca Gulosa
@@ -418,12 +431,13 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-/*		if (n != null) {
+		
+		if (n != null) {
+			System.out.println("Solução:\n" + n.getEstado() + "\n\n");
 			System.out.println("solucao = " + n.montaCaminho());
 			System.out.println("\toperacoes = " + n.getProfundidade());
 			System.out.println("\tcusto = " + n.g());
-		}*/	
+		}	
 
     
     }
@@ -516,7 +530,7 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
 
 
 	public void searchUpdated(String str) {
-		this.textAreaResult.append("\n"+str);
+		//this.textAreaResult.append("\n"+str);
 	}
     
     

@@ -16,6 +16,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import br.edu.ufcg.ia.algorithms.search.AEstrela;
 import br.edu.ufcg.ia.algorithms.search.Aleatorio;
 import br.edu.ufcg.ia.algorithms.search.Antecessor;
+import br.edu.ufcg.ia.algorithms.search.BuscaProfundidade;
 import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.Heuristica;
 import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
@@ -329,7 +330,8 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		
 		MostraStatusConsole statusConsole = new MostraStatusConsole();
 		
-		SubidaMontanha busca = new SubidaMontanha(new MostraStatusConsole());
+		//SubidaMontanha busca = new SubidaMontanha(new MostraStatusConsole());
+		BuscaProfundidade busca = new BuscaProfundidade(new MostraStatusConsole());
 		
 		busca.usarFechados(false);
 		Nodo s = busca.busca(inicial);
