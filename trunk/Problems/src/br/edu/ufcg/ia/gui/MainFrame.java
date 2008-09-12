@@ -62,7 +62,7 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
     private SimpleWeightedGraph<String, DefaultWeightedEdge> g;
     private HashMap<String, Integer> hashAlgoritms;
     private Problem selectedProblem;
-
+    private MostraStatusConsole statusConsole;
 	
     /** Creates new form MainFrame */
     public MainFrame() {
@@ -75,6 +75,8 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
 						DefaultWeightedEdge.class));
     	
     	this.hashAlgoritms = new HashMap<String, Integer>();
+    	this.statusConsole = new MostraStatusConsole();
+    	this.statusConsole.addSearchListenner(this);
     	
     	Properties p = new Properties();
 		try {
@@ -367,7 +369,6 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
     	Nodo n 		   = null;    	
     	Busca busca    = null;
     	Estado inicial = null;
-    	MostraStatusConsole statusConsole = new MostraStatusConsole();
     	
     	if(this.selectedProblem.equals(Problem.NQUEENS)) {
     		try {
@@ -398,7 +399,7 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
 				break;
 			case 3:
 				//Satisfação de Restrinção (Subida de Montanha)
-				busca = new SubidaMontanha(statusConsole);
+				busca = new SubidaMontanha(this.statusConsole);
 				break;
 			case 4:
 				//Busca A Estrela
