@@ -324,14 +324,12 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 
 		// BuscaGulosa busca = new BuscaGulosa(new MostraStatusConsole());
 		// AEstrela busca = new AEstrela(new MostraStatusConsole());
-		// BuscaProfundidade busca = new BuscaProfundidade(new
-		// MostraStatusConsole());
+		BuscaProfundidade busca = new BuscaProfundidade(new MostraStatusConsole());
 		// BuscaLargura busca = new BuscaLargura(new MostraStatusConsole());
 		
-		MostraStatusConsole statusConsole = new MostraStatusConsole();
-		
 		//SubidaMontanha busca = new SubidaMontanha(new MostraStatusConsole());
-		BuscaProfundidade busca = new BuscaProfundidade(new MostraStatusConsole());
+		//BuscaProfundidade busca = new BuscaProfundidade(new MostraStatusConsole());
+		//AEstrela busca = new AEstrela(new MostraStatusConsole());
 		
 		busca.usarFechados(false);
 		Nodo s = busca.busca(inicial);

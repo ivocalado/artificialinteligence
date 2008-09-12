@@ -312,7 +312,7 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
                 .add(buttonRemoveEdge)
                 .add(14, 14, 14))
         );
-        tabbedPane.addTab("Cacheiro Viajante", jPanel2);
+        tabbedPane.addTab("Caixeiro Viajante", jPanel2);
 
         jLabel2.setText("Algoritmo de Busca");
 
@@ -420,24 +420,26 @@ public class MainFrame extends javax.swing.JFrame implements SeachListenner {
 			case 5:
 				//Busca Gulosa
 				break;
-			case 6:
-				//Algoritmo Genético
-				break;
 		}
 		
-		busca.usarFechados(false);
-		try {
-			n = busca.busca(inicial);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		if (n != null) {
-			System.out.println("Solução:\n" + n.getEstado() + "\n\n");
-			System.out.println("solucao = " + n.montaCaminho());
-			System.out.println("\toperacoes = " + n.getProfundidade());
-			System.out.println("\tcusto = " + n.g());
-		}	
+    	if(selectedAlgorithmId != 6) {
+    		busca.usarFechados(this.selectedProblem.equals(Problem.NQUEENS));
+    		try {
+    			n = busca.busca(inicial);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    		
+    		System.out.println(n);
+    		if (n != null) {
+    			System.out.println("Solução:\n" + n.getEstado() + "\n\n");
+    			System.out.println("solucao = " + n.montaCaminho());
+    			System.out.println("\toperacoes = " + n.getProfundidade());
+    			System.out.println("\tcusto = " + n.g());
+    		}	
+    	} else {
+    		//algoritmo genético
+    	}
 
     
     }
