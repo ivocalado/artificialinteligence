@@ -21,7 +21,6 @@ import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.Heuristica;
 import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
 import br.edu.ufcg.ia.algorithms.search.Nodo;
-import br.edu.ufcg.ia.algorithms.search.SubidaMontanha;
 
 /**
  * Representa um estado do mundo para o problema do caixeiro viajante.
@@ -31,7 +30,12 @@ import br.edu.ufcg.ia.algorithms.search.SubidaMontanha;
 public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		Aleatorio {
 	private SimpleWeightedGraph<String, DefaultWeightedEdge> g;
+	public List<EstadoCaixeiroViajante> percurso;
+	private String estado;
+	public double custo;
+	private String caminho;
 
+	
 	public String getDescricao() {
 		StringBuffer ds = new StringBuffer(
 				"Encontra a melhor rota que visite todos os nodos no mapa abaixo (o custo dos caminhos esta entre parenteses):\n");
@@ -46,26 +50,15 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 			ds.append("\n");
 		}
 
-		/*
-		 * for (int i = 0; i < nomes.length; i++) { ds.append(" saindo de " +
-		 * nomes[i] + " para "); Map<Vertice, Integer> custos =
-		 * mapa.getVertice(i) .getCustoAdjacentes(); for (Vertice v :
-		 * custos.keySet()) { ds.append(nomes[v.getId()] + "(" + custos.get(v) +
-		 * "), "); } ds.append("\n"); }
-		 */
 		return ds.toString();
 	}
-
-	// private/** estado: a cidade corrente */
-	private String estado;
-	public double custo;
-	private String caminho;
 
 	public EstadoCaixeiroViajante(String c,
 			SimpleWeightedGraph<String, DefaultWeightedEdge> g) {
 		this.g = g;
 		this.estado = c;
 		caminho = "" + c;
+		percurso = new ArrayList<EstadoCaixeiroViajante>();
 	}
 
 	public EstadoCaixeiroViajante(String c, double custo, String pai,
@@ -74,11 +67,9 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		this.estado = c;
 		this.custo = custo;
 		this.caminho = pai + " -> " + c;
+		percurso = new ArrayList<EstadoCaixeiroViajante>();
 	}
 
-	/**
-	 * verifica se um estado e igual a outro
-	 */
 	public boolean equals(Object o) {
 		if (o instanceof EstadoCaixeiroViajante) {
 			EstadoCaixeiroViajante e = (EstadoCaixeiroViajante) o;
@@ -91,18 +82,8 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		return estado.hashCode();
 	}
 
-	/**
-	 * verifica se o estado e meta
-	 */
 	public boolean ehMeta(Nodo n) {
-		// System.out.println("\n");
-		// for (int i=0; i<nomes.length; i++) {
-		// System.out.println(nomes[i]);
-		// System.out.println(mapa.getVertice(i).isFoiVisitado());
-		// }
-		// System.out.println("\n");
-		// System.out.println("Profundidade Nó atual: " + n.getProfundidade());
-		return n.getProfundidade() == (nomes.length - 1);
+		return n.getProfundidade() == (g.vertexSet().size() - 1);
 	}
 
 	/**
@@ -116,15 +97,8 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	 * gera uma lista de sucessores do nodo.
 	 */
 	public List<Estado> sucessores() {
-		// mapa.getVertice(cidade).setFoiVisitado(true);
-		System.out.println(caminho);
+		//System.out.println(caminho);
 		List<Estado> suc = new LinkedList<Estado>(); // a lista de sucessores
-		/*
-		 * Map<Vertice, Integer> custos = mapa.getVertice(cidade)
-		 * .getCustoAdjacentes(); for (Vertice v : custos.keySet()) {
-		 * suc.add(new EstadoCaixeiroViajante(v.getId(), custos.get(v),
-		 * caminho)); }
-		 */
 
 		for (DefaultWeightedEdge edge : g.edgesOf(estado)) {
 			suc.add(new EstadoCaixeiroViajante(g.getEdgeSource(edge).equals(
@@ -147,7 +121,7 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	public String toStringAll() {
 		String saida = "";
 		System.out.println(percurso.size());
-		for (Iterator iterator = percurso.iterator(); iterator.hasNext();) {
+		for (Iterator<EstadoCaixeiroViajante> iterator = percurso.iterator(); iterator.hasNext();) {
 			saida += ((EstadoCaixeiroViajante) iterator.next()).getEstado();
 			if (iterator.hasNext())
 				saida += ", ";
@@ -155,46 +129,15 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		return saida + "\n";
 	}
 
-	// cidades
-	// a, b, c, d, e, f, g, h, i, k, l, m, n, o, p, x
-	// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
-	public final static String nomes[] = { "Joao Pessoa", "Santa Rita",
-			"Guarabira", "Mamanguape", "Cabedelo", "Campina Grande",
-			"Alagoa Grande", "Itabaiana", "Esperanca" };
 
-	public static List<EstadoCaixeiroViajante> percurso = new ArrayList<EstadoCaixeiroViajante>();
+	
 
-	// @Override
 	public int h(Nodo n) {
-
-		/*
-		 * //heurística de quinta sem conhecimento prévio //baseado no número de
-		 * cidades já visitadas e do número que ainda falta int profundidade =
-		 * n.getProfundidade();
-		 * 
-		 * if(profundidade == 0) return 0;
-		 * 
-		 * EstadoCaixeiroViajante estadoAtual = (EstadoCaixeiroViajante)
-		 * n.getEstado();
-		 * 
-		 * int custosAtual = 0; int cidades = 0;
-		 * 
-		 * for (Estado estado : estadoAtual.sucessores()) { if
-		 * (!percurso.contains(estado)) { custosAtual += estado.custo();
-		 * cidades++; } } custosAtual =
-		 * ((cidades*custosAtual)/(cidades-nomes.length)); return
-		 * (custosAtual)*estadoAtual.custo(); /* //heuristica de quarta com
-		 * conhecimento prévio usando g() int profundidade =
-		 * n.getProfundidade(); if(profundidade == 0) return 0; int
-		 * custoAcumulado = n.g(); int media = (int)custoAcumulado/profundidade;
-		 * int estimativa = media * (nomes.length - profundidade);
-		 * 
-		 * return estimativa;
-		 */
-
-		return (nomes.length - n.getProfundidade()) * 47; // 47 é a média dos
-		// custos das
-		// arestas
+		double value = 0.0;
+		for (DefaultWeightedEdge edge : g.edgeSet())
+			value += g.getEdgeWeight(edge);
+		value /= (double) g.edgeSet().size();
+		return (int) ((g.edgeSet().size() - n.getProfundidade()) * value);
 	}
 
 	public void setCusto(int custo) {
@@ -224,12 +167,16 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		// for (Vertice v: custos.keySet()) {
 		// suc.add(new EstadoCaixeiroViajante(v.getId(), custos.get(v)));
 		// }
-
+		/*
+		 * System.out.println("Indice:" + index); System.out.println("Tamanho do
+		 * vetor:"+g.vertexSet().toArray().length);
+		 */
 		return new EstadoCaixeiroViajante(
 				(String) g.vertexSet().toArray()[index], 0, "", g);
 	}
 
-	public static void main(String[] a) throws FileNotFoundException, IOException {
+	public static void main(String[] a) throws FileNotFoundException,
+			IOException {
 		/** informacao estatica (o mapa) */
 		// SimpleWeightedGraph<String, DefaultWeightedEdge> g;
 		SimpleWeightedGraph<String, DefaultWeightedEdge> g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
@@ -271,50 +218,10 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		g.setEdgeWeight(
 				g.addEdge(p.getProperty("est7"), p.getProperty("est8")), 20.0);
 
-		/*
-		 * mapa.criaAresta(0,1,11); mapa.criaAresta(0,4,20);
-		 * mapa.criaAresta(0,7,82);
-		 * 
-		 * mapa.criaAresta(1,6,60); mapa.criaAresta(1,7,68);
-		 * mapa.criaAresta(1,3,44);
-		 * 
-		 * mapa.criaAresta(4,3,77);
-		 * 
-		 * mapa.criaAresta(3,2,45);
-		 * 
-		 * mapa.criaAresta(2,6,40); mapa.criaAresta(2,8,60);
-		 * 
-		 * mapa.criaAresta(8,5,38);
-		 * 
-		 * mapa.criaAresta(5,6,47);
-		 * 
-		 * mapa.criaAresta(6,7,20);
-		 */
-		/*
-		 * g.addVertex("a"); g.addVertex("b"); g.addVertex("c");
-		 * g.addVertex("d"); g.addVertex("e"); g.addVertex("f");
-		 * g.addVertex("g");
-		 * 
-		 * g.setEdgeWeight(g.addEdge("a", "b"), 2.0);
-		 * g.setEdgeWeight(g.addEdge("a", "c"), 3.0);
-		 * g.setEdgeWeight(g.addEdge("a", "d"), 4.0);
-		 * g.setEdgeWeight(g.addEdge("b", "e"), 1.0);
-		 * g.setEdgeWeight(g.addEdge("b", "c"), 2.);
-		 * g.setEdgeWeight(g.addEdge("c", "d"), 5.);
-		 * g.setEdgeWeight(g.addEdge("c", "e"), 2.);
-		 * g.setEdgeWeight(g.addEdge("c", "f"), 3.);
-		 * g.setEdgeWeight(g.addEdge("c", "g"), 2.);
-		 * g.setEdgeWeight(g.addEdge("e", "g"), 1.);
-		 * g.setEdgeWeight(g.addEdge("g", "f"), 3.);
-		 * g.setEdgeWeight(g.addEdge("d", "f"), 1.);
-		 * 
-		 * 
-		 * 
-		 * public static Grafo mapa = new GrafoNaoDirigido();
-		 * 
-		 * static { for (int i=0; i<=8; i++) { mapa.criaVertice(i); } }
-		 */
-
+	
+		
+		
+	
 		EstadoCaixeiroViajante inicial = new EstadoCaixeiroViajante(
 				"Pernambuco", g);
 		// System.out.println(inicial.getDescricao());
@@ -323,13 +230,17 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		// inicial.ehMeta();
 
 		// BuscaGulosa busca = new BuscaGulosa(new MostraStatusConsole());
+		AEstrela busca = new AEstrela(new MostraStatusConsole());
+		/*
+		 * BuscaProfundidade busca = new BuscaProfundidade(new
+		 * MostraStatusConsole());
+		 */
 		// AEstrela busca = new AEstrela(new MostraStatusConsole());
-		BuscaProfundidade busca = new BuscaProfundidade(new MostraStatusConsole());
-		// BuscaLargura busca = new BuscaLargura(new MostraStatusConsole());
-		
-		//SubidaMontanha busca = new SubidaMontanha(new MostraStatusConsole());
 		//BuscaProfundidade busca = new BuscaProfundidade(new MostraStatusConsole());
-		//AEstrela busca = new AEstrela(new MostraStatusConsole());
+		// BuscaLargura busca = new BuscaLargura(new MostraStatusConsole());
+		MostraStatusConsole statusConsole = new MostraStatusConsole();
+
+
 		
 		busca.usarFechados(false);
 		Nodo s = busca.busca(inicial);

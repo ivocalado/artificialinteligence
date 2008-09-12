@@ -333,7 +333,7 @@ public class TSP_AG {
 		
 		g.setEdgeWeight(g.addEdge("g", "h"), 59.);
 		
-		new TSP_AG(g, true, 0.5, 3000).start();
+		new TSP_AG(g, false, 0.5, 3000).start();
 		
 
 	}
