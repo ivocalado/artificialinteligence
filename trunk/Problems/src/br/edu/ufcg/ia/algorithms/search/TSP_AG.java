@@ -1,3 +1,4 @@
+package br.edu.ufcg.ia.algorithms.search;
 import java.util.Random;
 import java.util.Set;
 

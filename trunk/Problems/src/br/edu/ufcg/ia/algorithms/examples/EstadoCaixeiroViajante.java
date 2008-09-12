@@ -16,7 +16,6 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import br.edu.ufcg.ia.algorithms.search.AEstrela;
 import br.edu.ufcg.ia.algorithms.search.Aleatorio;
 import br.edu.ufcg.ia.algorithms.search.Antecessor;
-import br.edu.ufcg.ia.algorithms.search.BuscaProfundidade;
 import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.Heuristica;
 import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
@@ -35,7 +34,6 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	public double custo;
 	private String caminho;
 
-	
 	public String getDescricao() {
 		StringBuffer ds = new StringBuffer(
 				"Encontra a melhor rota que visite todos os nodos no mapa abaixo (o custo dos caminhos esta entre parenteses):\n");
@@ -97,7 +95,7 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	 * gera uma lista de sucessores do nodo.
 	 */
 	public List<Estado> sucessores() {
-		//System.out.println(caminho);
+		// System.out.println(caminho);
 		List<Estado> suc = new LinkedList<Estado>(); // a lista de sucessores
 
 		for (DefaultWeightedEdge edge : g.edgesOf(estado)) {
@@ -121,16 +119,14 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	public String toStringAll() {
 		String saida = "";
 		System.out.println(percurso.size());
-		for (Iterator<EstadoCaixeiroViajante> iterator = percurso.iterator(); iterator.hasNext();) {
+		for (Iterator<EstadoCaixeiroViajante> iterator = percurso.iterator(); iterator
+				.hasNext();) {
 			saida += ((EstadoCaixeiroViajante) iterator.next()).getEstado();
 			if (iterator.hasNext())
 				saida += ", ";
 		}
 		return saida + "\n";
 	}
-
-
-	
 
 	public int h(Nodo n) {
 		double value = 0.0;
@@ -161,18 +157,9 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 
 	// @Override
 	public Estado geraAleatorio() {
-		int index = (int) Math.ceil(Math.random() * g.vertexSet().size());
-		// Map<Vertice,Integer> custos =
-		// mapa.getVertice(cidade).getCustoAdjacentes();
-		// for (Vertice v: custos.keySet()) {
-		// suc.add(new EstadoCaixeiroViajante(v.getId(), custos.get(v)));
-		// }
-		/*
-		 * System.out.println("Indice:" + index); System.out.println("Tamanho do
-		 * vetor:"+g.vertexSet().toArray().length);
-		 */
 		return new EstadoCaixeiroViajante(
-				(String) g.vertexSet().toArray()[index], 0, "", g);
+				(String) g.vertexSet().toArray()[(int) Math.ceil(Math.random()
+						* g.vertexSet().size())], 0, "", g);
 	}
 
 	public static void main(String[] a) throws FileNotFoundException,
@@ -218,10 +205,6 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		g.setEdgeWeight(
 				g.addEdge(p.getProperty("est7"), p.getProperty("est8")), 20.0);
 
-	
-		
-		
-	
 		EstadoCaixeiroViajante inicial = new EstadoCaixeiroViajante(
 				"Pernambuco", g);
 		// System.out.println(inicial.getDescricao());
@@ -236,12 +219,11 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		 * MostraStatusConsole());
 		 */
 		// AEstrela busca = new AEstrela(new MostraStatusConsole());
-		//BuscaProfundidade busca = new BuscaProfundidade(new MostraStatusConsole());
+		// BuscaProfundidade busca = new BuscaProfundidade(new
+		// MostraStatusConsole());
 		// BuscaLargura busca = new BuscaLargura(new MostraStatusConsole());
 		MostraStatusConsole statusConsole = new MostraStatusConsole();
 
-
-		
 		busca.usarFechados(false);
 		Nodo s = busca.busca(inicial);
 
