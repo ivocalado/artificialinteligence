@@ -489,6 +489,7 @@ public class MainGUI extends javax.swing.JFrame {
     	} else {
     		//algoritmo genético
     		if(this.selectedProblem.equals(Problem.TRAVELLING_SALESMAN)) {
+    			//default values
     			double rateOfDeath = 0.5;
     			int evolutions     = 3000;
     			

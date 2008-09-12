@@ -36,7 +36,8 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 
 	public String getDescricao() {
 		StringBuffer ds = new StringBuffer(
-				"Encontra a melhor rota que visite todos os nodos no mapa abaixo (o custo dos caminhos esta entre parenteses):\n");
+				"Encontra o caminho de custo mais baixo visitando todos os nós do grafo (Problema do Caixeiro Viajante - PCV)" +
+				" Obs.: O valor do custo está entre parênteses:\n");
 		for (String estado : g.vertexSet()) {
 			ds.append("  saindo de " + estado + " para ");
 			for (DefaultWeightedEdge edge : g.edgesOf(estado)) {
@@ -155,7 +156,6 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		this.estado = estado;
 	}
 
-	// @Override
 	public Estado geraAleatorio() {
 		return new EstadoCaixeiroViajante(
 				(String) g.vertexSet().toArray()[(int) Math.ceil(Math.random()
@@ -164,8 +164,7 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 
 	public static void main(String[] a) throws FileNotFoundException,
 			IOException {
-		/** informacao estatica (o mapa) */
-		// SimpleWeightedGraph<String, DefaultWeightedEdge> g;
+
 		SimpleWeightedGraph<String, DefaultWeightedEdge> g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
 				new ClassBasedEdgeFactory<String, DefaultWeightedEdge>(
 						DefaultWeightedEdge.class));
@@ -207,21 +206,11 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 
 		EstadoCaixeiroViajante inicial = new EstadoCaixeiroViajante(
 				"Pernambuco", g);
-		// System.out.println(inicial.getDescricao());
+
 		System.out.println("estado inicial= " + inicial);
 
-		// inicial.ehMeta();
-
-		// BuscaGulosa busca = new BuscaGulosa(new MostraStatusConsole());
 		AEstrela busca = new AEstrela(new MostraStatusConsole());
-		/*
-		 * BuscaProfundidade busca = new BuscaProfundidade(new
-		 * MostraStatusConsole());
-		 */
-		// AEstrela busca = new AEstrela(new MostraStatusConsole());
-		// BuscaProfundidade busca = new BuscaProfundidade(new
-		// MostraStatusConsole());
-		// BuscaLargura busca = new BuscaLargura(new MostraStatusConsole());
+
 		MostraStatusConsole statusConsole = new MostraStatusConsole();
 
 		busca.usarFechados(false);
@@ -232,17 +221,6 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 			System.out.println("\toperacoes = " + s.getProfundidade());
 			System.out.println("\tcusto = " + s.g());
 		}
-
-		// test
-		/*
-		 * Queue<Nodo> abertos = new PriorityQueue<Nodo>(); abertos.add(new
-		 * Nodo(new EstadoMapa(4,50),null)); abertos.add(new Nodo(new
-		 * EstadoMapa(1,300),null)); abertos.add(new Nodo(new
-		 * EstadoMapa(2,100),null)); abertos.add(new Nodo(new
-		 * EstadoMapa(3,200),null)); abertos.add(new Nodo(new
-		 * EstadoMapa(5,2),null)); while (!abertos.isEmpty()) {
-		 * System.out.println(abertos.remove()); }
-		 */
 
 	}
 }
