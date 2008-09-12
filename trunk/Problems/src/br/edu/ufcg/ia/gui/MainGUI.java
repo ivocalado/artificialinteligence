@@ -21,12 +21,14 @@ import br.edu.ufcg.ia.algorithms.examples.EstadoCaixeiroViajante;
 import br.edu.ufcg.ia.algorithms.examples.EstadoRainhas;
 import br.edu.ufcg.ia.algorithms.search.AEstrela;
 import br.edu.ufcg.ia.algorithms.search.Busca;
+import br.edu.ufcg.ia.algorithms.search.BuscaGulosa;
 import br.edu.ufcg.ia.algorithms.search.BuscaLargura;
 import br.edu.ufcg.ia.algorithms.search.BuscaProfundidade;
 import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
 import br.edu.ufcg.ia.algorithms.search.Nodo;
 import br.edu.ufcg.ia.algorithms.search.SubidaMontanha;
+import br.edu.ufcg.ia.algorithms.search.TSP_AG;
 import br.edu.ufcg.ia.gui.MainFrameOld.Problem;
 import br.edu.ufcg.ia.util.TextAreaOutputStream;
 
@@ -57,7 +59,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField textFieldPopulation;
+    private javax.swing.JTextField textFieldRateOfDeath;
     private javax.swing.JList listEdges;
     private javax.swing.JList listVertex;
     private javax.swing.JTabbedPane tabbedPane;
@@ -138,7 +140,7 @@ public class MainGUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         textFieldEvolution = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        textFieldPopulation = new javax.swing.JTextField(); 
+        textFieldRateOfDeath = new javax.swing.JTextField(); 
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         jInternalFrame.setTitle("Resultado da Busca");
@@ -204,8 +206,6 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        comboVertex1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "item1" }));
-
         buttonAddEdge.setText("Adicionar");
         buttonAddEdge.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,11 +226,6 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        listVertex.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "item1" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(listVertex);
 
         buttonRemove.setText("Remover");
@@ -239,6 +234,13 @@ public class MainGUI extends javax.swing.JFrame {
                 buttonRemoveActionPerformed(evt);
             }
         });
+        
+        this.listVertex.setModel(new DefaultListModel());
+        this.listEdges.setModel(new DefaultListModel());
+        
+        this.comboAlgoritms.setModel(new DefaultComboBoxModel());
+        this.comboVertex1.setModel(new DefaultComboBoxModel());
+        this.comboVertex2.setModel(new DefaultComboBoxModel());
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -346,7 +348,7 @@ public class MainGUI extends javax.swing.JFrame {
         this.jLabel6.setVisible(false);
         this.jLabel7.setVisible(false);
         this.textFieldEvolution.setVisible(false);
-        this.textFieldPopulation.setVisible(false);
+        this.textFieldRateOfDeath.setVisible(false);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -369,7 +371,7 @@ public class MainGUI extends javax.swing.JFrame {
                             .add(jLabel7))
                         .add(5, 5, 5)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, textFieldPopulation)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, textFieldRateOfDeath)
                             .add(textFieldEvolution, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)))
                     .add(buttonClearTextArea))
                 .addContainerGap())
@@ -397,7 +399,7 @@ public class MainGUI extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(buttonExec)
                     .add(jLabel7)
-                    .add(textFieldPopulation, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(textFieldRateOfDeath, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         pack();
@@ -408,12 +410,12 @@ public class MainGUI extends javax.swing.JFrame {
         	this.jLabel6.setVisible(true);
         	this.jLabel7.setVisible(true);
         	this.textFieldEvolution.setVisible(true);
-        	this.textFieldPopulation.setVisible(true);
+        	this.textFieldRateOfDeath.setVisible(true);
        } else {
        		this.jLabel6.setVisible(false);
        		this.jLabel7.setVisible(false);
        		this.textFieldEvolution.setVisible(false);
-       		this.textFieldPopulation.setVisible(false);
+       		this.textFieldRateOfDeath.setVisible(false);
        }
     }
 
@@ -465,6 +467,7 @@ public class MainGUI extends javax.swing.JFrame {
 				break;
 			case 5:
 				//Busca Gulosa
+				busca = new BuscaGulosa(this.statusConsole);
 				break;
 		}
 		
@@ -485,6 +488,19 @@ public class MainGUI extends javax.swing.JFrame {
     		}	
     	} else {
     		//algoritmo genético
+    		if(this.selectedProblem.equals(Problem.TRAVELLING_SALESMAN)) {
+    			double rateOfDeath = 0.5;
+    			int evolutions     = 3000;
+    			
+    			try {
+        			rateOfDeath = Double.valueOf(this.textFieldRateOfDeath.getText()).doubleValue();
+        			evolutions  = Double.valueOf(this.textFieldEvolution.getText()).intValue();
+        			new TSP_AG(this.g, true, rateOfDeath, evolutions).start();
+    			} catch (NumberFormatException e) {
+    				JOptionPane.showMessageDialog(this, "Parâmetro(s) inválido(s)! Taxa de Mortalidade ou Número de Evolução");
+    			}
+
+    		}
     	}
     }
 
@@ -536,10 +552,6 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     private void buttonCreateVerticeActionPerformed(java.awt.event.ActionEvent evt) {
-
-    }//GEN-LAST:event_buttonCreateVerticeActionPerformed
-
-    private void textFieldNumberOfQueensActionPerformed(java.awt.event.ActionEvent evt) {
     	String vertexName = this.textFieldVertexName.getText();
     	
     	this.g.addVertex(vertexName);    	
@@ -551,7 +563,11 @@ public class MainGUI extends javax.swing.JFrame {
     	this.textFieldVertexName.setText("");
     }
 
-    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
+    private void textFieldNumberOfQueensActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {
     	if(this.selectedProblem == null) {
     		this.selectedProblem = Problem.NQUEENS;
     	} else {
