@@ -4,14 +4,11 @@ package ag;
 public class CromossomoRainha extends Cromossomo {
     private static final int nRainhas = 8;
     
-
     private void setCromossomoToArray(Rainha[] r){
-        //System.out.println(this.toString());
         for (int i=0; i<nRainhas; i++){
             r[i] = new Rainha(i, (int)converteBooleano(i*nBitsPorGene(nRainhas),(i+1)*nBitsPorGene(nRainhas)-1));
         } 
     }
-
 
     public void imprimeTabuleiro(){
         boolean[][] aux = new boolean[nRainhas][nRainhas]; 
