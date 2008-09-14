@@ -44,9 +44,7 @@ public void run(int numberOfQueens)
   fitnessEvaluation();
  
   while (!checkForTermination())
-  {
-    //System.out.println(++generation);
-   
+  {   
     parentSelection();
     crossover();
     mutation();
@@ -634,13 +632,13 @@ protected class IndividualDescending implements Comparator<Individual>
 protected static int gridSize;
 protected double maxTime = 0;
 
-protected int populationSize = 100;
-protected int maxGenerations = 500;
+protected int populationSize;
+protected int maxGenerations;
 protected String selectionType = "roulette_wheel";
 protected String crossoverType = "single_point";
-protected double crossoverRate = 0.4;
+protected double crossoverRate;
 protected String mutationType = "swap_columns";
-protected double mutationRate = 0.1;
+protected double mutationRate;
 
 protected int generation;
 protected long endTime;
