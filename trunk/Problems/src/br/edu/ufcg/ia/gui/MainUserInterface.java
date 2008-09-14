@@ -4,9 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
@@ -42,6 +44,7 @@ public class MainUserInterface extends javax.swing.JFrame {
     enum Problem { NQUEENS, TRAVELLING_SALESMAN }
     private SimpleWeightedGraph<String, DefaultWeightedEdge> g;
     private HashMap<String, Integer> hashAlgoritms;
+    private ArrayList<String> vertexList;
     private Problem selectedProblem;
     private MostraStatusConsole statusConsole;
     private TextAreaOutputStream textAreaOut;
@@ -56,6 +59,7 @@ public class MainUserInterface extends javax.swing.JFrame {
     	this.g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(new ClassBasedEdgeFactory<String, DefaultWeightedEdge>(
 						DefaultWeightedEdge.class));
     	
+    	this.vertexList    = new ArrayList<String>();
     	this.hashAlgoritms = new HashMap<String, Integer>();
     	this.statusConsole = new MostraStatusConsole();
     	
@@ -510,7 +514,9 @@ public class MainUserInterface extends javax.swing.JFrame {
     		}
         	
     	} else {
-    		inicial = new EstadoCaixeiroViajante("Pernambuco", this.g);
+    		String inicialVertex = this.vertexList.get(0);
+    		System.out.println(inicialVertex);
+    		inicial 			 = new EstadoCaixeiroViajante(inicialVertex, this.g);
     		this.textAreaResult.append("Estado inicial: " + inicial);   		
     	}
     	
@@ -527,7 +533,7 @@ public class MainUserInterface extends javax.swing.JFrame {
 				busca = new BuscaProfundidade(this.statusConsole);
 				break;
 			case 3:
-				//Satisfação de Restrinção (Subida de Montanha)
+				//Subida de Montanha
 				busca = new SubidaMontanha(this.statusConsole);
 				break;
 			case 4:
@@ -563,8 +569,9 @@ public class MainUserInterface extends javax.swing.JFrame {
 			
     		if(this.selectedProblem.equals(Problem.TRAVELLING_SALESMAN)) {    			
     			try {
+    				System.out.println("entoru para AG - CAIXEIRO");
         			rateOfDeath = Double.valueOf(this.textFieldRateOfDeath.getText()).doubleValue();
-        			evolutions  = Double.valueOf(this.textFieldEvolution.getText()).intValue();
+        			evolutions  = Integer.valueOf(this.textFieldEvolution.getText()).intValue();
         			new TSP_AG(this.g, true, rateOfDeath, evolutions).start();
     			} catch (NumberFormatException e) {
     				JOptionPane.showMessageDialog(this, "Parâmetro(s) inválido(s)! Taxa de Mortalidade ou Número de Evolução");
@@ -578,6 +585,7 @@ public class MainUserInterface extends javax.swing.JFrame {
         				double crossOverRate = Double.valueOf(this.textFieldCrossoverRate.getText());
         				double mutationRate  = Double.valueOf(this.textFieldMutationRate.getText());
         				int generationMax    = Integer.valueOf(this.textFieldGenarationMax.getText());
+        
         				EstadoRainhasAlgoritmoGenetico rainhas = new EstadoRainhasAlgoritmoGenetico(populationSize,
         						crossOverRate,mutationRate,generationMax);
         				rainhas.run(numberOfQueens);
@@ -593,6 +601,7 @@ public class MainUserInterface extends javax.swing.JFrame {
 
     private void buttonRemoveEdgeActionPerformed(java.awt.event.ActionEvent evt) {
     	((DefaultListModel)this.listEdges.getModel()).removeElement(this.listEdges.getSelectedValue());
+    	//this.g.removeEdge();
     }
 
     private void buttonAddEdgeActionPerformed(java.awt.event.ActionEvent evt) {
@@ -614,33 +623,38 @@ public class MainUserInterface extends javax.swing.JFrame {
     }
 
     private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {
-    	String selectedVertex = (String) this.listVertex.getSelectedValue();
-    	((DefaultListModel)this.listVertex.getModel()).removeElement(selectedVertex);
-    	((DefaultComboBoxModel)this.comboVertex1.getModel()).removeElement(selectedVertex);
-    	((DefaultComboBoxModel)this.comboVertex2.getModel()).removeElement(selectedVertex);
-    	
-    	Set<DefaultWeightedEdge> edges 		   = this.g.edgesOf(selectedVertex);
-    	Iterator<DefaultWeightedEdge> iterator = edges.iterator();
-    	
-    	while(iterator.hasNext()) {
-    		DefaultWeightedEdge e = iterator.next();
-    		String vertex 		  = this.g.getEdgeSource(e);
-    		
-    		if(vertex.equals(selectedVertex)) {
-    			vertex = this.g.getEdgeTarget(e);       		
-    			((DefaultListModel)this.listEdges.getModel()).removeElement(selectedVertex + "<-" + this.g.getEdgeWeight(e) + "->" + vertex);
-    		} else {    			
-    			((DefaultListModel)this.listEdges.getModel()).removeElement(vertex + "<-" + this.g.getEdgeWeight(e) + "->" + selectedVertex);
-    		}
+    	if(this.listVertex.getSelectedValue() != null) {
+        	String selectedVertex = (String) this.listVertex.getSelectedValue();
+        	((DefaultListModel)this.listVertex.getModel()).removeElement(selectedVertex);
+        	((DefaultComboBoxModel)this.comboVertex1.getModel()).removeElement(selectedVertex);
+        	((DefaultComboBoxModel)this.comboVertex2.getModel()).removeElement(selectedVertex);
+        	
+        	Set<DefaultWeightedEdge> edges 		   = this.g.edgesOf(selectedVertex);
+        	Iterator<DefaultWeightedEdge> iterator = edges.iterator();
+        	
+        	while(iterator.hasNext()) {
+        		DefaultWeightedEdge e = iterator.next();
+        		String vertex 		  = this.g.getEdgeSource(e);
+        		
+        		if(vertex.equals(selectedVertex)) {
+        			vertex = this.g.getEdgeTarget(e);       		
+        			((DefaultListModel)this.listEdges.getModel()).removeElement(selectedVertex + "<-" + this.g.getEdgeWeight(e) + "->" + vertex);
+        		} else {    			
+        			((DefaultListModel)this.listEdges.getModel()).removeElement(vertex + "<-" + this.g.getEdgeWeight(e) + "->" + selectedVertex);
+        		}
+        	}
+        	
+        	this.vertexList.remove(selectedVertex);
+        	this.g.removeVertex(selectedVertex);	
+    	} else {
+    		JOptionPane.showMessageDialog(this, "Selecione um vértice!");
     	}
-    	
-    	this.g.removeVertex(selectedVertex);
-    	
     }
 
     private void buttonCreateVerticeActionPerformed(java.awt.event.ActionEvent evt) {
     	String vertexName = this.textFieldVertexName.getText();
     	
+    	this.vertexList.add(vertexName);
     	this.g.addVertex(vertexName);    	
     	
     	((DefaultListModel)this.listVertex.getModel()).addElement(vertexName);
