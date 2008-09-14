@@ -18,6 +18,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import ag.AGRainha;
+import br.edu.ufcg.ia.algorithms.examples.EstadoRainhasAlgoritmoGenetico;
 import br.edu.ufcg.ia.algorithms.examples.EstadoCaixeiroViajante;
 import br.edu.ufcg.ia.algorithms.examples.EstadoRainhas;
 import br.edu.ufcg.ia.algorithms.search.AEstrela;
@@ -432,10 +433,14 @@ public class MainGUI extends javax.swing.JFrame {
     	if(this.selectedProblem.equals(Problem.NQUEENS)) {
     		try {
         		short numberOfQueens = Short.valueOf(this.textFieldNumberOfQueens.getText());
-                EstadoRainhas.tam    = numberOfQueens;
-                
-                inicial 		 	 = new EstadoRainhas();
-                System.out.println("Estado inicial:"+inicial+"\n");
+        		if(numberOfQueens > 3 && numberOfQueens <= 8) {
+                    EstadoRainhas.tam    = numberOfQueens;
+                    
+                    inicial 		 	 = new EstadoRainhas();
+                    System.out.println("Estado inicial:"+inicial+"\n");	
+        		} else {
+        			JOptionPane.showMessageDialog(this, "Entrada para o número de rainhas inválida!");
+        		}
 
         	} catch (NumberFormatException e) {
         		JOptionPane.showMessageDialog(this, "Entrada Inválida!");
@@ -503,9 +508,14 @@ public class MainGUI extends javax.swing.JFrame {
     			}
 
     		} else {
-    			   //AGRainha meuGA = new AGRainha(evolutions,20,rateOfDeath);
-    			   AGRainha meuGA = new AGRainha(10,20,0.05);
-    			   meuGA.executa();
+    			int numberOfQueens = Integer.valueOf(this.textFieldNumberOfQueens.getText());
+    			if(numberOfQueens > 3 && numberOfQueens <= 8) {
+    				//tem q tah ligado láaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa nos
+    				//paramentros definidos com valores default!
+    				EstadoRainhasAlgoritmoGenetico rainhas = new EstadoRainhasAlgoritmoGenetico(20,0.4,0.1,500);
+    				rainhas.run(numberOfQueens);
+    				System.out.println(rainhas.printResult());
+    			}
     		}
     	}
     }
