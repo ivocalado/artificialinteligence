@@ -17,6 +17,7 @@ import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
+import ag.AGRainha;
 import br.edu.ufcg.ia.algorithms.examples.EstadoCaixeiroViajante;
 import br.edu.ufcg.ia.algorithms.examples.EstadoRainhas;
 import br.edu.ufcg.ia.algorithms.search.AEstrela;
@@ -488,11 +489,11 @@ public class MainGUI extends javax.swing.JFrame {
     		}	
     	} else {
     		//algoritmo genético
-    		if(this.selectedProblem.equals(Problem.TRAVELLING_SALESMAN)) {
-    			//default values
-    			double rateOfDeath = 0.5;
-    			int evolutions     = 3000;
-    			
+    		//default values
+			double rateOfDeath = 0.5;
+			int evolutions     = 3000;
+			
+    		if(this.selectedProblem.equals(Problem.TRAVELLING_SALESMAN)) {    			
     			try {
         			rateOfDeath = Double.valueOf(this.textFieldRateOfDeath.getText()).doubleValue();
         			evolutions  = Double.valueOf(this.textFieldEvolution.getText()).intValue();
@@ -501,6 +502,10 @@ public class MainGUI extends javax.swing.JFrame {
     				JOptionPane.showMessageDialog(this, "Parâmetro(s) inválido(s)! Taxa de Mortalidade ou Número de Evolução");
     			}
 
+    		} else {
+    			   //AGRainha meuGA = new AGRainha(evolutions,20,rateOfDeath);
+    			   AGRainha meuGA = new AGRainha(10,20,0.05);
+    			   meuGA.executa();
     		}
     	}
     }
