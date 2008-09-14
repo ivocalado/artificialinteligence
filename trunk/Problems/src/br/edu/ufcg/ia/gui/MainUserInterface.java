@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -556,7 +557,7 @@ public class MainUserInterface extends javax.swing.JFrame {
     		
     		System.out.println(n);
     		if (n != null) {
-    			System.out.println("Solução:\n" + n.getEstado() + "\n\n");
+    			System.out.println("Solucao:\n" + n.getEstado() + "\n\n");
     			System.out.println("solucao = " + n.montaCaminho());
     			System.out.println("\toperacoes = " + n.getProfundidade());
     			System.out.println("\tcusto = " + n.g());
@@ -569,7 +570,6 @@ public class MainUserInterface extends javax.swing.JFrame {
 			
     		if(this.selectedProblem.equals(Problem.TRAVELLING_SALESMAN)) {    			
     			try {
-    				System.out.println("entoru para AG - CAIXEIRO");
         			rateOfDeath = Double.valueOf(this.textFieldRateOfDeath.getText()).doubleValue();
         			evolutions  = Integer.valueOf(this.textFieldEvolution.getText()).intValue();
         			new TSP_AG(this.g, true, rateOfDeath, evolutions).start();
@@ -598,11 +598,59 @@ public class MainUserInterface extends javax.swing.JFrame {
     	}
     	
     }
-
-    private void buttonRemoveEdgeActionPerformed(java.awt.event.ActionEvent evt) {
-    	((DefaultListModel)this.listEdges.getModel()).removeElement(this.listEdges.getSelectedValue());
-    	//this.g.removeEdge();
+    
+/*    private void removeEdgeFromGraph(String selectedVertex1, String selectedVertex2) {
+    	Set<DefaultWeightedEdge> edges 		   = this.g.edgesOf(selectedVertex1);
+    	Iterator<DefaultWeightedEdge> iterator = edges.iterator();
+    	
+    	while(iterator.hasNext()) {
+    		DefaultWeightedEdge e = iterator.next();
+    		String vertex 		  = this.g.getEdgeSource(e);
+    		
+    		if(vertex.equals(selectedVertex1)) {
+    			vertex = this.g.getEdgeTarget(e);       		
+    			((DefaultListModel)this.listEdges.getModel()).removeElement(selectedVertex1 + "<-" + this.g.getEdgeWeight(e) + "->" + vertex);
+    		} else {    			
+    			((DefaultListModel)this.listEdges.getModel()).removeElement(vertex + "<-" + this.g.getEdgeWeight(e) + "->" + selectedVertex);
+    		}
+    	}
     }
+*/
+    private void buttonRemoveEdgeActionPerformed(java.awt.event.ActionEvent evt) {
+/*    	String edgs = (String) this.listEdges.getSelectedValue();
+		StringTokenizer t = new StringTokenizer(edgs, "<-->");
+		int i = 0;
+		String[] str = new String[3];
+		
+		while(t.hasMoreTokens()) {
+			str[i] = t.nextToken();
+			i++;
+		}
+
+		Set<DefaultWeightedEdge> edges 		   = this.g.edgesOf(str[0]);
+    	Iterator<DefaultWeightedEdge> iterator = edges.iterator();
+    	
+    	while(iterator.hasNext()) {
+    		DefaultWeightedEdge e = iterator.next();
+    		if(this.g.getEdgeSource(e).equals(str[0]) && (this.g.getEdgeTarget(e).equals(str[2]))) {
+    			this.g.removeEdge(e);
+    		}
+    	}*/
+		
+    	((DefaultListModel)this.listEdges.getModel()).removeElement(this.listEdges.getSelectedValue());
+    	//this.printEdges();
+    }
+    
+/*    private void printEdges() {
+		Set<DefaultWeightedEdge> edges 		   = this.g.edgesOf((String)this.listVertex.getSelectedValue());
+    	Iterator<DefaultWeightedEdge> iterator = edges.iterator();
+    	
+    	while(iterator.hasNext()) {
+    		DefaultWeightedEdge e = iterator.next();
+    		System.out.println(this.g.getEdgeSource(e));
+    		System.out.println(this.g.getEdgeTarget(e));
+    	}
+    }*/
 
     private void buttonAddEdgeActionPerformed(java.awt.event.ActionEvent evt) {
     	String selectedVertex1 = (String)((DefaultComboBoxModel)this.comboVertex1.getModel()).getSelectedItem();
