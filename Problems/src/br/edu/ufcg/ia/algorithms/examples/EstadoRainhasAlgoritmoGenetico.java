@@ -29,8 +29,8 @@ public class EstadoRainhasAlgoritmoGenetico implements Estado
 	
 	public EstadoRainhasAlgoritmoGenetico(int tamanhoPopulacao, double taxaCrossover, double taxaMutacao, int maximoGeracoes) {
 		this.populationSize = tamanhoPopulacao;
-		this.mutationRate = taxaMutacao;
-		this.crossoverRate = taxaCrossover;
+		this.mutationRate   = taxaMutacao;
+		this.crossoverRate  = taxaCrossover;
 		this.maxGenerations = maximoGeracoes;
 	}
 	
@@ -353,7 +353,7 @@ protected boolean checkForTermination()
   //   the first solution
   if (population[0].fitness >= 1)
   {
-    terminationReason = "*** Solution found! ***";
+    terminationReason = "--- Solução Encontrada! ---";
     return true;
   }
  
@@ -418,10 +418,10 @@ public String printResult()
 {
 	String result = "\n";
   result += terminationReason+ "\n";
-  result += "generations: " + generation+ "\n";
+  result += "Gerações: " + generation+ "\n";
   result += "function evaluations: " + numFevals+ "\n";
   DecimalFormat nf = new DecimalFormat("0.000");
-  result += "elapsed time: " +
+  result += "Tempo gasto: " +
     nf.format((System.currentTimeMillis() - startTime) / 1000.0) + "s" + "\n";
   if (population[0].fitness >= 1)
   {
@@ -446,7 +446,7 @@ protected String printSolution(Individual soln)
       for (int col = 0; col < gridSize; ++col)
       {
         if (soln.chromosome[col] == row)
-        	result += "Q ";
+        	result += "R ";
         else
         	result += "_ ";
       }
@@ -635,7 +635,7 @@ protected static int gridSize;
 protected double maxTime = 0;
 
 protected int populationSize = 100;
-protected int maxGenerations = 500;//TEM Q TAH LIGADO AQUIIIIIIIIIIIIIIIIIIIIIII!!!
+protected int maxGenerations = 500;
 protected String selectionType = "roulette_wheel";
 protected String crossoverType = "single_point";
 protected double crossoverRate = 0.4;
@@ -654,7 +654,6 @@ protected String terminationReason = "???";
 protected long numFevals;  
 
 	public static void main(String[] args) {
-		//tem q tah ligado láaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 		EstadoRainhasAlgoritmoGenetico rainhas = new EstadoRainhasAlgoritmoGenetico(20,0.4,0.1,500);
 		rainhas.run(5);
 		System.out.println(rainhas.printResult());
