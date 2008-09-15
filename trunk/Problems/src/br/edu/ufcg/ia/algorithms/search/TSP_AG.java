@@ -294,8 +294,12 @@ public class TSP_AG {
 		g.setEdgeWeight(g.addEdge("e", "g"), 34.);
 		g.setEdgeWeight(g.addEdge("e", "h"), 82.);
 		
-		
-		
+
+		g.setEdgeWeight(g.addEdge("f", "g"), 19.);
+		g.setEdgeWeight(g.addEdge("f", "h"), 32.);
+
+		g.setEdgeWeight(g.addEdge("g", "h"), 59.);
+
 		g.setEdgeWeight(g.addEdge("f", "g"), 19.);
 		g.setEdgeWeight(g.addEdge("f", "h"), 32.);
 		
