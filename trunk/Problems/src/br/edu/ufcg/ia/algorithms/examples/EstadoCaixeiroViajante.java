@@ -159,7 +159,7 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 	public Estado geraAleatorio() {
 		return new EstadoCaixeiroViajante(
 				(String) g.vertexSet().toArray()[(int) Math.ceil(Math.random()
-						* g.vertexSet().size())], 0, "", g);
+						* g.vertexSet().size() -1)], 0, "", g);
 	}
 
 	public static void main(String[] a) throws FileNotFoundException,
