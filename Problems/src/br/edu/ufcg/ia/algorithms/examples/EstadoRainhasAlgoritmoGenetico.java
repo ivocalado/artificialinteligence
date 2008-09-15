@@ -40,7 +40,7 @@ public class EstadoRainhasAlgoritmoGenetico implements Estado
 //----------------------------------
 public void run(int numberOfQueens)
 {
-  initialize(numberOfQueens);
+  init(numberOfQueens);
   fitnessEvaluation();
  
   while (!checkForTermination())
@@ -284,7 +284,7 @@ protected void mutate(Individual individual)
 //       - generate a new randomized population
 //         of solutions
 //------------------------------------------------
-protected void initialize(int numberOfQueens)
+protected void init(int numberOfQueens)
 {
   gridSize = numberOfQueens;
   population = new Individual[populationSize];
