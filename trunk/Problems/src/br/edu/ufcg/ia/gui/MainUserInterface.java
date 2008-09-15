@@ -634,10 +634,16 @@ public class MainUserInterface extends javax.swing.JFrame {
     		JOptionPane.showMessageDialog(this, "Selecione dois vértices diferentes!");
     	} else {    		
     		try {
-    			double weight = (Double.valueOf(this.textFieldWeight.getText())).doubleValue();
-        		this.g.setEdgeWeight(this.g.addEdge(selectedVertex1, selectedVertex2), weight);        		
-        		((DefaultListModel)this.listEdges.getModel()).addElement(selectedVertex1 + "<-" + weight + "->" + selectedVertex2);
-        		this.textFieldWeight.setText("");
+    			
+    			if(!this.g.containsEdge(selectedVertex1, selectedVertex2)) {
+        			double weight = (Double.valueOf(this.textFieldWeight.getText())).doubleValue();
+            		this.g.setEdgeWeight(this.g.addEdge(selectedVertex1, selectedVertex2), weight);        		
+            		((DefaultListModel)this.listEdges.getModel()).addElement(selectedVertex1 + "<-" + weight + "->" + selectedVertex2);
+            		this.textFieldWeight.setText("");		
+    			} else {
+    				JOptionPane.showMessageDialog(this, "Entrada inválida! Aresta já existente!");
+    			}
+    		
     		} catch (NumberFormatException e) {
     			JOptionPane.showMessageDialog(this, "Entrada inválida!");
     		}    		
@@ -676,14 +682,18 @@ public class MainUserInterface extends javax.swing.JFrame {
     private void buttonCreateVerticeActionPerformed(java.awt.event.ActionEvent evt) {
     	String vertexName = this.textFieldVertexName.getText();
     	
-    	this.vertexList.add(vertexName);
-    	this.g.addVertex(vertexName);    	
-    	
-    	((DefaultListModel)this.listVertex.getModel()).addElement(vertexName);
-    	((DefaultComboBoxModel)this.comboVertex1.getModel()).addElement(vertexName);
-    	((DefaultComboBoxModel)this.comboVertex2.getModel()).addElement(vertexName);
-    	
-    	this.textFieldVertexName.setText("");
+    	if(vertexName.length() != 0) {
+        	this.vertexList.add(vertexName);
+        	this.g.addVertex(vertexName);    	
+        	
+        	((DefaultListModel)this.listVertex.getModel()).addElement(vertexName);
+        	((DefaultComboBoxModel)this.comboVertex1.getModel()).addElement(vertexName);
+        	((DefaultComboBoxModel)this.comboVertex2.getModel()).addElement(vertexName);
+        	
+        	this.textFieldVertexName.setText("");	
+    	} else {
+    		JOptionPane.showMessageDialog(this, "Entrada inválida!");
+    	}
 
     }
 
