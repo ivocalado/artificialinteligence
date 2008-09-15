@@ -64,9 +64,9 @@ public class MainUserInterface extends javax.swing.JFrame {
     	this.hashAlgoritms = new HashMap<String, Integer>();
     	this.statusConsole = new MostraStatusConsole();
     	
-    	this.textAreaOut = new TextAreaOutputStream(this.textAreaResult);
-    	System.setOut(new PrintStream(this.textAreaOut));
-    	System.setErr(new PrintStream(this.textAreaOut));
+    	//this.textAreaOut = new TextAreaOutputStream(this.textAreaResult);
+    	//System.setOut(new PrintStream(this.textAreaOut));
+    	//System.setErr(new PrintStream(this.textAreaOut));
     	
     	Properties p = new Properties();
 		try {
