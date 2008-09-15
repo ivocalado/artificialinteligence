@@ -97,7 +97,7 @@ public class Queens {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        int N = Integer.parseInt(args[0]);
+        int N = 8;
        // System.setOut(new PrintStream("saida.txt"));
         enumerate(N);
     }

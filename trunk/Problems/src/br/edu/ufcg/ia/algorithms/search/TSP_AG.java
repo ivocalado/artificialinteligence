@@ -61,7 +61,7 @@ public class TSP_AG {
 		int inicioExcluidos = (int) (taxaMortalidade * 10);
 		int i, i2 = 0;
 
-		for (i = inicioExcluidos; i < 10; i++) {
+		for (i = inicioExcluidos; i < numPopulacoes; i++) {
 
 			boolean valido = false;
 

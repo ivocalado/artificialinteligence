@@ -77,7 +77,7 @@ public class Queens2 {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        int N = Integer.parseInt(args[0]);
+        int N = 8;
         //System.setOut(new PrintStream("saida.txt"));
         int[] a         = new int[N];         // a[i] = row of queen in ith column
         boolean[] diag1 = new boolean[2*N];   // is ith top diagonal occupied?
