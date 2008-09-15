@@ -253,36 +253,6 @@ public class TSP_AG {
 
 	public static void main(String[] args) {
 
-		// definicoes iniciais
-
-		/*
-		 * * boolean mostrarEvolucao = true; float taxaMortalidade = (float)
-		 * 0.5; int numeroEvolucoes = 3000; // matriz de adjacencia
-		 */
-
-		/**
-		 * String[] cidades = { "A", "B", "C", "D", "E", "F", "G", "H" };
-		 * 
-		 * int[][] cromossomos = new int[NUMERO_POPULACAO][NUMERO_CIDADES];
-		 * int[] resultados = new int[NUMERO_POPULACAO];
-		 */
-
-		// gerarCromossomosAleatoriamente(cromossomos);
-		// calcularResultado(cromossomos, resultados, mapa);
-		/*
-		 * if (mostrarEvolucao) imprimir(cromossomos, resultados, cidades);
-		 */
-/*		int[][] mapa = { { 0, 42, 61, 30, 17, 82, 31, 11 },
-				{ 42, 0, 14, 87, 28, 70, 19, 33 },
-				{ 61, 14, 0, 20, 81, 21, 8, 29 },
-				{ 30, 87, 20, 0, 34, 33, 91, 10 },
-				{ 17, 28, 81, 34, 0, 41, 34, 82 },
-				{ 82, 70, 21, 33, 41, 0, 19, 32 },
-				{ 31, 19, 8, 91, 34, 19, 0, 59 },
-				{ 11, 33, 29, 10, 82, 32, 59, 0 } };*/
-
-		// mostrando resultado encontrado
-
 		SimpleWeightedGraph<String, DefaultWeightedEdge> g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
 				new ClassBasedEdgeFactory<String, DefaultWeightedEdge>(
 						DefaultWeightedEdge.class));
@@ -290,46 +260,46 @@ public class TSP_AG {
 		g.addVertex("b");
 		g.addVertex("c");
 		g.addVertex("d");
-		//g.addVertex("e");
-		//g.addVertex("f");
-		//g.addVertex("g");
-		//g.addVertex("h");
+		g.addVertex("e");
+		g.addVertex("f");
+		g.addVertex("g");
+		g.addVertex("h");
 
 		g.setEdgeWeight(g.addEdge("a", "b"), 42.);
-		//g.setEdgeWeight(g.addEdge("a", "c"), 61.);
-		//g.setEdgeWeight(g.addEdge("a", "d"), 30.);
-		//g.setEdgeWeight(g.addEdge("a", "e"), 17.);
-		//g.setEdgeWeight(g.addEdge("a", "f"), 82.);
-		//g.setEdgeWeight(g.addEdge("a", "g"), 31.);
-		//g.setEdgeWeight(g.addEdge("a", "h"), 11.);		
+		g.setEdgeWeight(g.addEdge("a", "c"), 61.);
+		g.setEdgeWeight(g.addEdge("a", "d"), 30.);
+		g.setEdgeWeight(g.addEdge("a", "e"), 17.);
+		g.setEdgeWeight(g.addEdge("a", "f"), 82.);
+		g.setEdgeWeight(g.addEdge("a", "g"), 31.);
+		g.setEdgeWeight(g.addEdge("a", "h"), 11.);		
 		g.setEdgeWeight(g.addEdge("b", "c"), 14.);
-		//g.setEdgeWeight(g.addEdge("b", "d"), 87.);
-		//g.setEdgeWeight(g.addEdge("b", "e"), 28.);
-		//g.setEdgeWeight(g.addEdge("b", "f"), 70.);
-		//g.setEdgeWeight(g.addEdge("b", "g"), 19.);
-		//g.setEdgeWeight(g.addEdge("b", "h"), 33.);		
+		g.setEdgeWeight(g.addEdge("b", "d"), 87.);
+		g.setEdgeWeight(g.addEdge("b", "e"), 28.);
+		g.setEdgeWeight(g.addEdge("b", "f"), 70.);
+		g.setEdgeWeight(g.addEdge("b", "g"), 19.);
+		g.setEdgeWeight(g.addEdge("b", "h"), 33.);		
 		g.setEdgeWeight(g.addEdge("c", "d"), 20.);
-		//g.setEdgeWeight(g.addEdge("c", "e"), 81.);
-		//g.setEdgeWeight(g.addEdge("c", "f"), 21.);
-		//g.setEdgeWeight(g.addEdge("c", "g"), 8.);
-		//g.setEdgeWeight(g.addEdge("c", "h"), 29.);		
-		g.setEdgeWeight(g.addEdge("d", "a"), 34.);
-		//g.setEdgeWeight(g.addEdge("d", "f"), 33.);
-		//g.setEdgeWeight(g.addEdge("d", "g"), 91.);
-		//g.setEdgeWeight(g.addEdge("d", "h"), 10.);
+		g.setEdgeWeight(g.addEdge("c", "e"), 81.);
+		g.setEdgeWeight(g.addEdge("c", "f"), 21.);
+		g.setEdgeWeight(g.addEdge("c", "g"), 8.);
+		g.setEdgeWeight(g.addEdge("c", "h"), 29.);		
+		g.setEdgeWeight(g.addEdge("d", "e"), 34.);
+		g.setEdgeWeight(g.addEdge("d", "f"), 33.);
+		g.setEdgeWeight(g.addEdge("d", "g"), 91.);
+		g.setEdgeWeight(g.addEdge("d", "h"), 10.);
 		
 //		g.
 		
-		//g.setEdgeWeight(g.addEdge("e", "f"), 41.);
-		//g.setEdgeWeight(g.addEdge("e", "g"), 34.);
-		//g.setEdgeWeight(g.addEdge("e", "h"), 82.);
+		g.setEdgeWeight(g.addEdge("e", "f"), 41.);
+		g.setEdgeWeight(g.addEdge("e", "g"), 34.);
+		g.setEdgeWeight(g.addEdge("e", "h"), 82.);
 		
-		//g.setEdgeWeight(g.addEdge("f", "g"), 19.);
-		//g.setEdgeWeight(g.addEdge("f", "h"), 32.);
 		
-		//g.setEdgeWeight(g.addEdge("g", "h"), 59.);
 		
-		//g.setEdgeWeight(g.addEdge("g", "a"), 45.);
+		g.setEdgeWeight(g.addEdge("f", "g"), 19.);
+		g.setEdgeWeight(g.addEdge("f", "h"), 32.);
+		
+		g.setEdgeWeight(g.addEdge("g", "h"), 59.);
 		
 		new TSP_AG(g, true, 0.5, 3000).start();
 		
