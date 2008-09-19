@@ -653,7 +653,7 @@ protected long numFevals;
 
 	public static void main(String[] args) {
 		EstadoRainhasAlgoritmoGenetico rainhas = new EstadoRainhasAlgoritmoGenetico(20,0.4,0.1,500);
-		rainhas.run(5);
+		rainhas.run(8);
 		System.out.println(rainhas.printResult());
 	}
 

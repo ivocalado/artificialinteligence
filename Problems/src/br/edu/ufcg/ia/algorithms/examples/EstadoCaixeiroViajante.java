@@ -1,13 +1,9 @@
 package br.edu.ufcg.ia.algorithms.examples;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -16,9 +12,9 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import br.edu.ufcg.ia.algorithms.search.AEstrela;
 import br.edu.ufcg.ia.algorithms.search.Aleatorio;
 import br.edu.ufcg.ia.algorithms.search.Antecessor;
+import br.edu.ufcg.ia.algorithms.search.BuscaProfundidade;
 import br.edu.ufcg.ia.algorithms.search.Estado;
 import br.edu.ufcg.ia.algorithms.search.Heuristica;
-import br.edu.ufcg.ia.algorithms.search.MostraStatusConsole;
 import br.edu.ufcg.ia.algorithms.search.Nodo;
 
 /**
@@ -162,10 +158,9 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 						* g.vertexSet().size() -1)], 0, "", g);
 	}
 
-	public static void main(String[] a) throws FileNotFoundException,
-			IOException {
+	public static void main(String[] a) throws Exception {
 
-		SimpleWeightedGraph<String, DefaultWeightedEdge> g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
+/*		SimpleWeightedGraph<String, DefaultWeightedEdge> g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
 				new ClassBasedEdgeFactory<String, DefaultWeightedEdge>(
 						DefaultWeightedEdge.class));
 
@@ -204,23 +199,181 @@ public class EstadoCaixeiroViajante implements Estado, Antecessor, Heuristica,
 		g.setEdgeWeight(
 				g.addEdge(p.getProperty("est7"), p.getProperty("est8")), 20.0);
 
-		EstadoCaixeiroViajante inicial = new EstadoCaixeiroViajante(
-				"Pernambuco", g);
+		*/
 
+		SimpleWeightedGraph<String, DefaultWeightedEdge> g = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
+				new ClassBasedEdgeFactory<String, DefaultWeightedEdge>(
+						DefaultWeightedEdge.class));
+		g.addVertex("a");
+		g.addVertex("b");
+		g.addVertex("c");
+		g.addVertex("d");
+		g.addVertex("e");
+		g.addVertex("f");
+		g.addVertex("g");
+		g.addVertex("h");
+		g.addVertex("i");
+		g.addVertex("j");
+		
+		g.addVertex("l");
+		g.addVertex("m");
+		g.addVertex("n");
+		g.addVertex("o");
+		g.addVertex("p");
+		
+		
+		g.setEdgeWeight(g.addEdge("a", "b"), 42.);
+		g.setEdgeWeight(g.addEdge("a", "c"), 61.);
+		g.setEdgeWeight(g.addEdge("a", "d"), 30.);
+		g.setEdgeWeight(g.addEdge("a", "e"), 17.);
+		g.setEdgeWeight(g.addEdge("a", "f"), 82.);
+		g.setEdgeWeight(g.addEdge("a", "g"), 31.);
+		g.setEdgeWeight(g.addEdge("a", "h"), 11.);		
+		g.setEdgeWeight(g.addEdge("a", "i"), 1.);
+		g.setEdgeWeight(g.addEdge("a", "j"), 81.);
+		
+		g.setEdgeWeight(g.addEdge("a", "l"), 2.);
+		g.setEdgeWeight(g.addEdge("a", "m"), 631.);
+		g.setEdgeWeight(g.addEdge("a", "n"), 4.);		
+		g.setEdgeWeight(g.addEdge("a", "o"), 9.);
+		g.setEdgeWeight(g.addEdge("a", "p"), 8.);
+		
+		g.setEdgeWeight(g.addEdge("b", "c"), 14.);
+		g.setEdgeWeight(g.addEdge("b", "d"), 87.);
+		g.setEdgeWeight(g.addEdge("b", "e"), 28.);
+		g.setEdgeWeight(g.addEdge("b", "f"), 70.);
+		g.setEdgeWeight(g.addEdge("b", "g"), 19.);
+		g.setEdgeWeight(g.addEdge("b", "h"), 33.);
+		g.setEdgeWeight(g.addEdge("b", "i"), 3.);
+		g.setEdgeWeight(g.addEdge("b", "j"), 2.);
+		
+		g.setEdgeWeight(g.addEdge("b", "l"), 7.);
+		g.setEdgeWeight(g.addEdge("b", "m"), 159.);
+		g.setEdgeWeight(g.addEdge("b", "n"), 383.);
+		g.setEdgeWeight(g.addEdge("b", "o"), 13.);
+		g.setEdgeWeight(g.addEdge("b", "p"), 2.);
+		
+		g.setEdgeWeight(g.addEdge("c", "d"), 20.);
+		g.setEdgeWeight(g.addEdge("c", "e"), 81.);
+		g.setEdgeWeight(g.addEdge("c", "f"), 21.);
+		g.setEdgeWeight(g.addEdge("c", "g"), 8.);
+		g.setEdgeWeight(g.addEdge("c", "h"), 29.);		
+		g.setEdgeWeight(g.addEdge("c", "i"), 9.);
+		g.setEdgeWeight(g.addEdge("c", "j"), 2.);
+		
+		g.setEdgeWeight(g.addEdge("c", "l"), 231.);
+		g.setEdgeWeight(g.addEdge("c", "m"), 8.);
+		g.setEdgeWeight(g.addEdge("c", "n"), 9.);		
+		g.setEdgeWeight(g.addEdge("c", "o"), 1.);
+		g.setEdgeWeight(g.addEdge("c", "p"), 92.);
+		
+		
+		g.setEdgeWeight(g.addEdge("d", "e"), 34.);
+		g.setEdgeWeight(g.addEdge("d", "f"), 33.);
+		g.setEdgeWeight(g.addEdge("d", "g"), 91.);
+		g.setEdgeWeight(g.addEdge("d", "h"), 10.);
+		g.setEdgeWeight(g.addEdge("d", "i"), 1.);
+		g.setEdgeWeight(g.addEdge("d", "j"), 18.);
+		
+		g.setEdgeWeight(g.addEdge("d", "l"), 3.);
+		g.setEdgeWeight(g.addEdge("d", "m"), 491.);
+		g.setEdgeWeight(g.addEdge("d", "n"), 1.);
+		g.setEdgeWeight(g.addEdge("d", "o"), 6.);
+		g.setEdgeWeight(g.addEdge("d", "p"), 1.);
+//		g.
+		
+		g.setEdgeWeight(g.addEdge("e", "f"), 41.);
+		g.setEdgeWeight(g.addEdge("e", "g"), 34.);
+		g.setEdgeWeight(g.addEdge("e", "h"), 82.);
+		g.setEdgeWeight(g.addEdge("e", "i"), 8.);
+		g.setEdgeWeight(g.addEdge("e", "j"), 2.);
+
+		g.setEdgeWeight(g.addEdge("e", "l"), 4.);
+		g.setEdgeWeight(g.addEdge("e", "m"), 374.);
+		g.setEdgeWeight(g.addEdge("e", "n"), 8.);
+		g.setEdgeWeight(g.addEdge("e", "o"), 18.);
+		g.setEdgeWeight(g.addEdge("e", "p"), 2.);
+		
+		g.setEdgeWeight(g.addEdge("f", "g"), 19.);
+		g.setEdgeWeight(g.addEdge("f", "h"), 32.);
+		g.setEdgeWeight(g.addEdge("f", "i"), 2.);
+		g.setEdgeWeight(g.addEdge("f", "j"), 3.);
+		
+		g.setEdgeWeight(g.addEdge("f", "l"), 1.);
+		g.setEdgeWeight(g.addEdge("f", "m"), 3.);
+		g.setEdgeWeight(g.addEdge("f", "n"), 25.);
+		g.setEdgeWeight(g.addEdge("f", "o"), 38.);
+		g.setEdgeWeight(g.addEdge("f", "p"), 31.);
+
+		g.setEdgeWeight(g.addEdge("g", "h"), 59.);
+		g.setEdgeWeight(g.addEdge("g", "i"), 5.);
+		g.setEdgeWeight(g.addEdge("g", "j"), 9.);
+		
+		g.setEdgeWeight(g.addEdge("g", "l"), 5.);
+		g.setEdgeWeight(g.addEdge("g", "m"), 545.);
+		g.setEdgeWeight(g.addEdge("g", "n"), 96.);
+		g.setEdgeWeight(g.addEdge("g", "o"), 50.);
+		g.setEdgeWeight(g.addEdge("g", "p"), 91.);
+		
+		g.setEdgeWeight(g.addEdge("h", "i"), 7.);
+		g.setEdgeWeight(g.addEdge("h", "j"), 9.);
+		g.setEdgeWeight(g.addEdge("h", "l"), 72.);
+		g.setEdgeWeight(g.addEdge("h", "m"), 956.);
+		g.setEdgeWeight(g.addEdge("h", "n"), 71.);
+		g.setEdgeWeight(g.addEdge("h", "o"), 29.);
+		g.setEdgeWeight(g.addEdge("h", "p"), 79.);
+
+		g.setEdgeWeight(g.addEdge("i", "j"), 4.);
+		g.setEdgeWeight(g.addEdge("i", "l"), 14.);
+		g.setEdgeWeight(g.addEdge("i", "m"), 43.);
+		g.setEdgeWeight(g.addEdge("i", "n"), 7.);
+		g.setEdgeWeight(g.addEdge("i", "o"), 9.);
+		g.setEdgeWeight(g.addEdge("i", "p"), 3.);
+		
+		g.setEdgeWeight(g.addEdge("j", "l"), 34.);
+		g.setEdgeWeight(g.addEdge("j", "m"), 8.);
+		g.setEdgeWeight(g.addEdge("j", "n"), 654.);
+		g.setEdgeWeight(g.addEdge("j", "o"), 9.);
+		g.setEdgeWeight(g.addEdge("j", "p"), 2.);
+		
+		g.setEdgeWeight(g.addEdge("l", "m"), 1.);
+		g.setEdgeWeight(g.addEdge("l", "n"), 434.);
+		g.setEdgeWeight(g.addEdge("l", "o"), 89.);
+		g.setEdgeWeight(g.addEdge("l", "p"), 9.);
+		
+		g.setEdgeWeight(g.addEdge("m", "n"), 5.);
+		g.setEdgeWeight(g.addEdge("m", "o"), 498.);
+		g.setEdgeWeight(g.addEdge("m", "p"), 244.);
+		
+		g.setEdgeWeight(g.addEdge("n", "o"), 87.);
+		g.setEdgeWeight(g.addEdge("n", "p"), 34.);
+		
+		g.setEdgeWeight(g.addEdge("o", "p"), 44.);
+		
+		EstadoCaixeiroViajante inicial = new EstadoCaixeiroViajante(
+				"a", g);
+		
+		
 		System.out.println("estado inicial= " + inicial);
 
-		AEstrela busca = new AEstrela(new MostraStatusConsole());
+//		AEstrela busca = new AEstrela();
+		BuscaProfundidade busca = new BuscaProfundidade();
 
-		MostraStatusConsole statusConsole = new MostraStatusConsole();
+
 
 		busca.usarFechados(false);
+		
+		long before = System.currentTimeMillis();
 		Nodo s = busca.busca(inicial);
-
+		long after = System.currentTimeMillis();
+		
 		if (s != null) {
 			System.out.println("solucao = " + s.montaCaminho());
 			System.out.println("\toperacoes = " + s.getProfundidade());
 			System.out.println("\tcusto = " + s.g());
 		}
+		
+		System.out.println(after-before);
 
 	}
 }
