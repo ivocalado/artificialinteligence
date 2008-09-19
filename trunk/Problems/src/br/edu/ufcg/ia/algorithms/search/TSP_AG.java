@@ -300,13 +300,14 @@ public class TSP_AG {
 
 		g.setEdgeWeight(g.addEdge("g", "h"), 59.);
 
-		g.setEdgeWeight(g.addEdge("f", "g"), 19.);
+	/*	g.setEdgeWeight(g.addEdge("f", "g"), 19.);
 		g.setEdgeWeight(g.addEdge("f", "h"), 32.);
 		
-		g.setEdgeWeight(g.addEdge("g", "h"), 59.);
-		
-		new TSP_AG(g, true, 0.5, 3000).start();
-		
+		g.setEdgeWeight(g.addEdge("g", "h"), 59.);*/
+		long before = System.currentTimeMillis();
+		new TSP_AG(g, false, 0.5, 3000).start();
+		long after = System.currentTimeMillis();
+		System.out.println(after-before);
 
 	}
 
