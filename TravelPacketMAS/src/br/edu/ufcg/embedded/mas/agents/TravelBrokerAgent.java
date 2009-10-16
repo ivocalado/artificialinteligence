@@ -53,7 +53,7 @@ public class TravelBrokerAgent extends YellowPagesAgents {
 	public static void main(String[] args) {
 		Boot
 				.main(new String[] { "-container",
-						"travelbroker:br.edu.ufcg.embedded.mas.agents.TravelBrokerAgent" });
+						"travel-broker:br.edu.ufcg.embedded.mas.agents.TravelBrokerAgent" });
 	}
 
 	

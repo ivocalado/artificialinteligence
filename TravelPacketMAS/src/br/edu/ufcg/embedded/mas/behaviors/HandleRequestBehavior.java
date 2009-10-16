@@ -5,12 +5,12 @@ import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
-import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import br.edu.ufcg.embedded.mas.agents.TravelBrokerAgent;
 import br.edu.ufcg.embedded.mas.yellowpages.YellowPagesManager;
@@ -22,6 +22,7 @@ public class HandleRequestBehavior extends Behaviour {
 	List<ACLMessage> responses;
 	private int MAX_VALUE = 4;
 	private String conversationId;
+	
 
 	public HandleRequestBehavior(Agent agent, ACLMessage clientRequest) {
 		super(agent);
@@ -42,15 +43,17 @@ public class HandleRequestBehavior extends Behaviour {
 				MessageTemplate.MatchConversationId(conversationId)));
 	}
 
-	private void sendMessage(AID aid, Serializable obj) {
+	private void sendMessage(AID aid) {
 		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 		try {
-			message.setContentObject(obj);
+			message.setContentObject(clientRequest.getContentObject());
 			message.addReceiver(aid);
 			message.setConversationId(conversationId);
 			myAgent.send(message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnreadableException e) {
 			e.printStackTrace();
 		}
 
@@ -72,18 +75,18 @@ public class HandleRequestBehavior extends Behaviour {
 					"flight-broker");
 
 			if (flightBroker != null) {
-				ACLMessage messageToFlight = new ACLMessage(ACLMessage.REQUEST);
+				//ACLMessage messageToFlight = new ACLMessage(ACLMessage.REQUEST);
 
 				// TODO setar parametros
 
 				// TODO considerar varios agentes de um tipo so (prices)
 
-				messageToFlight.addReceiver(flightBroker);
+				//messageToFlight.addReceiver(flightBroker);
 				conversationId = String.valueOf(System.currentTimeMillis());
-				messageToFlight.setConversationId(conversationId);
-				System.out.println("sending request to flight-broker");
-				myAgent.send(messageToFlight);
-
+				//messageToFlight.setConversationId(conversationId);
+				//System.out.println("sending request to flight-broker");
+				//myAgent.send(messageToFlight);
+				sendMessage(flightBroker);
 				steps++;
 			} else {
 				replyError("No flight broker agent found");
@@ -96,7 +99,7 @@ public class HandleRequestBehavior extends Behaviour {
 			if (messageFromFlightBroker != null) {
 				System.out.println(messageFromFlightBroker);
 				// TODO armazena o servico proposto pelo flight
-				if (messageFromFlightBroker.getPerformative() == ACLMessage.INFORM) {
+				if (messageFromFlightBroker.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
 
 					responses.add(messageFromFlightBroker);
 
@@ -104,7 +107,7 @@ public class HandleRequestBehavior extends Behaviour {
 							"hosting-broker");
 
 					if (hostingBroker != null) {
-						sendMessage(hostingBroker, null);
+						sendMessage(hostingBroker);
 						steps++;
 					} else {
 						replyError("No Hosting broker agents found!");
@@ -122,14 +125,16 @@ public class HandleRequestBehavior extends Behaviour {
 			if (messageFromHostingBroker != null) {
 				System.out.println(messageFromHostingBroker);
 				// TODO armazena o servico proposto pelo hosting
-				if (messageFromHostingBroker.getPerformative() == ACLMessage.INFORM) {
+				if (messageFromHostingBroker.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
 
+					responses.add(messageFromHostingBroker);
+					
 					AID transportationBroker = YellowPagesManager.findBrokers(
 							myAgent, "transportation-broker");
 
 					if (transportationBroker != null) {
 						steps++;
-						sendMessage(transportationBroker, null);
+						sendMessage(transportationBroker);
 					} else {
 						replyError("No transportationBroker broker agents found!");
 					}
@@ -145,12 +150,16 @@ public class HandleRequestBehavior extends Behaviour {
 			ACLMessage messageFromTransportationBroker = getMessage();
 			System.out.println(messageFromTransportationBroker);
 			if (messageFromTransportationBroker != null) {
+				
 				System.out.println(messageFromTransportationBroker);
 				// TODO armazena o servico proposto pelo hosting
-				if (messageFromTransportationBroker.getPerformative() == ACLMessage.INFORM) {
+				if (messageFromTransportationBroker.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {					
+					
+					responses.add(messageFromTransportationBroker);
+					
 					ACLMessage packet = clientRequest.createReply();
 					packet.setPerformative(ACLMessage.CONFIRM);
-					packet.setContent("COMPLETED PACKET!");
+					packet.setContent("COMPLETED PACKET!\n\n" + createTravelPackt());
 					((TravelBrokerAgent) myAgent).completeTravelPacket(packet);
 					steps = MAX_VALUE;
 				} else {
@@ -163,6 +172,16 @@ public class HandleRequestBehavior extends Behaviour {
 
 	}
 
+	
+	private String createTravelPackt() {
+		String msg = "";
+		for (ACLMessage acl : responses) {
+			msg = msg + acl.getContent() + "\n";
+		}
+	 
+		return msg;
+	}
+	
 	@Override
 	public boolean done() {
 		// TODO Auto-generated method stub

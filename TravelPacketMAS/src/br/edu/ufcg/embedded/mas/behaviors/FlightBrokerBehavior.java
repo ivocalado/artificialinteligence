@@ -3,16 +3,17 @@
  */
 package br.edu.ufcg.embedded.mas.behaviors;
 
-import java.io.IOException;
-
-import br.edu.ufcg.embedded.mas.objects.Travel;
-import br.edu.ufcg.embedded.mas.yellowpages.YellowPagesManager;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
+
+import java.io.IOException;
+
+import br.edu.ufcg.embedded.mas.objects.Travel;
+import br.edu.ufcg.embedded.mas.yellowpages.YellowPagesManager;
 
 /**
  * @author ivocalado
@@ -36,7 +37,7 @@ public class FlightBrokerBehavior extends TickerBehaviour {
 	@Override
 	protected void onTick() {
 		ACLMessage message = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
-		
+		System.out.println("onTick => "+message);
 		if(message != null) {
 			AID flighConversationAgent = null;
 			
