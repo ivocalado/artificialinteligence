@@ -3,13 +3,14 @@
  */
 package br.edu.ufcg.embedded.mas.behaviors;
 
+import jade.core.AID;
+import jade.core.behaviours.OneShotBehaviour;
+import jade.lang.acl.ACLMessage;
+
 import java.io.IOException;
 
 import br.edu.ufcg.embedded.mas.agents.ClientAgent;
 import br.edu.ufcg.embedded.mas.objects.Travel;
-import jade.core.AID;
-import jade.core.behaviours.OneShotBehaviour;
-import jade.lang.acl.ACLMessage;
 
 /**
  * @author ivocalado
@@ -45,7 +46,7 @@ public class BuyPacketBehavior extends OneShotBehaviour {
 		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 		// TODO adicionar restricoes
 		
-		Travel t = new Travel("", "High");
+		Travel t = new Travel("16", "");
 		message.addReceiver(aidBroker);
 		try {
 			message.setContentObject(t);
