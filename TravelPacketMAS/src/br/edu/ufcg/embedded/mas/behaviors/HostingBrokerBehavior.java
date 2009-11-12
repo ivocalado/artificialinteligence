@@ -54,6 +54,7 @@ public class HostingBrokerBehavior extends TickerBehaviour {
 				if (hostingConversationAgent != null) {
 					ACLMessage messageToHostingConversation = new ACLMessage(
 							ACLMessage.REQUEST);
+					messageToHostingConversation.addReceiver(hostingConversationAgent);
 					messageToHostingConversation.setConversationId(message
 							.getConversationId());
 					messageToHostingConversation.setContentObject(message

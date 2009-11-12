@@ -34,6 +34,7 @@ public class FlightBrokerConversationBehavior extends ConversationBehavior {
 														.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL))));
 		
 		if(message != null) {
+			System.out.println("message in flighbrokerConversationBehavior: " + message);
 			ACLMessage msg = this.message.createReply();
 			msg.setContent(message.getContent());
 			msg.setPerformative(message.getPerformative());

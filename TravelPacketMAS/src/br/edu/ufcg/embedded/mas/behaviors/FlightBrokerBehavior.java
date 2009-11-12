@@ -37,8 +37,8 @@ public class FlightBrokerBehavior extends TickerBehaviour {
 	@Override
 	protected void onTick() {
 		ACLMessage message = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
-		System.out.println("onTick => "+message);
 		if(message != null) {
+			System.out.println("MESSAGE FROM CLIENT IN FLIGHBROKERBEHAVIOR: " + message);
 			AID flighConversationAgent = null;
 			
 			try {
@@ -46,10 +46,10 @@ public class FlightBrokerBehavior extends TickerBehaviour {
 					flighConversationAgent = YellowPagesManager.findBrokers(myAgent, "flight-quality");					
 				} else
 					flighConversationAgent = YellowPagesManager.findBrokers(myAgent, "flight-price");
-				
-				
+
 				if(flighConversationAgent != null) {
 					ACLMessage messageToFlightConversation = new ACLMessage(ACLMessage.REQUEST);
+					messageToFlightConversation.addReceiver(flighConversationAgent);
 					messageToFlightConversation.setConversationId(message.getConversationId());
 					messageToFlightConversation.setContentObject(message.getContentObject());
 					myAgent.addBehaviour(new FlightBrokerConversationBehavior(myAgent, message));
