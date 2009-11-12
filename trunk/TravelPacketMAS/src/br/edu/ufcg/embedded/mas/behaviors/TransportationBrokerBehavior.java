@@ -42,6 +42,7 @@ public class TransportationBrokerBehavior extends TickerBehaviour {
 				if (transportationConversationAgent != null) {
 					ACLMessage messageToTransportationConversation = new ACLMessage(
 							ACLMessage.REQUEST);
+					messageToTransportationConversation.addReceiver(transportationConversationAgent);
 					messageToTransportationConversation
 							.setConversationId(message.getConversationId());
 					messageToTransportationConversation

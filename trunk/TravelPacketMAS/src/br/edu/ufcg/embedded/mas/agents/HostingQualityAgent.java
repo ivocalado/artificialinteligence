@@ -3,6 +3,7 @@
  */
 package br.edu.ufcg.embedded.mas.agents;
 
+import br.edu.ufcg.embedded.mas.behaviors.HostingQualityBehavior;
 import jade.Boot;
 
 /**
@@ -24,6 +25,16 @@ public class HostingQualityAgent extends YellowPagesAgents {
 	public HostingQualityAgent() {
 		super("HostingQualityAgent", "hosting-quality", "");
 	}
+	
+	
+
+	@Override
+	protected void setup() {
+		super.setup();
+		addBehaviour(new HostingQualityBehavior(this, 2354));
+	}
+
+
 
 	/**
 	 * @param args
@@ -31,7 +42,7 @@ public class HostingQualityAgent extends YellowPagesAgents {
 	public static void main(String[] args) {
 		Boot
 		.main(new String[] { "-container",
-				"flight-quality:br.edu.ufcg.embedded.mas.agents.HostingtQualityAgent" });
+				"hosting-quality:br.edu.ufcg.embedded.mas.agents.HostingQualityAgent" });
 	}
 
 }

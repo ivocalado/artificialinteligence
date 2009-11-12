@@ -97,7 +97,7 @@ public class HandleRequestBehavior extends Behaviour {
 			ACLMessage messageFromFlightBroker = getMessage();
 
 			if (messageFromFlightBroker != null) {
-				System.out.println(messageFromFlightBroker);
+				System.out.println(" messageFromFlightBroker: " + messageFromFlightBroker);
 				// TODO armazena o servico proposto pelo flight
 				if (messageFromFlightBroker.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
 
@@ -146,9 +146,9 @@ public class HandleRequestBehavior extends Behaviour {
 
 			break;
 		case 3:
-			System.out.println("ENTERING IN STEP 3");
+			//System.out.println("ENTERING IN STEP 3");
 			ACLMessage messageFromTransportationBroker = getMessage();
-			System.out.println(messageFromTransportationBroker);
+			//System.out.println(messageFromTransportationBroker);
 			if (messageFromTransportationBroker != null) {
 				
 				System.out.println(messageFromTransportationBroker);

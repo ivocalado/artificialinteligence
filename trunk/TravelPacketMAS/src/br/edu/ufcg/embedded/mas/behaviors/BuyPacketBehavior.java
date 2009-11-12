@@ -46,7 +46,7 @@ public class BuyPacketBehavior extends OneShotBehaviour {
 		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 		// TODO adicionar restricoes
 		
-		Travel t = new Travel("16", "");
+		Travel t = new Travel("12", "");
 		message.addReceiver(aidBroker);
 		try {
 			message.setContentObject(t);
